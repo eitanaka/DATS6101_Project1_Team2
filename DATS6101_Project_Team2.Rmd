@@ -2,9 +2,11 @@
 title: "DATS6101_Project1_Team2"
 author: "Ishani Makwana, Henry Hirsch and Ei Tanaka"
 date: "2023-02-09"
-output: html_document
-      : word_document:
-          highlight: tango
+output: 
+      html_document:
+            hightlight: tango
+      word_document:
+            highlight: tango
 ---
 
 ```{r setup, include=FALSE}
