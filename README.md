@@ -2,6 +2,7 @@
 This repository is for project 1 of team 2 in DATS6101-11 intro to data science.
 
 Attached are some notes on collaborating on Github that I learned from a senior programmer.
+
 """
 When collaborating on GitHub, it's important to take a few things into consideration to ensure a smooth and efficient workflow:
 
