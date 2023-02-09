@@ -4,6 +4,7 @@ This repository is for project 1 of team 2 in DATS6101-11 intro to data science.
 Attached are some notes on collaborating on Github that I learned from a senior programmer.
 
 """
+
 When collaborating on GitHub, it's important to take a few things into consideration to ensure a smooth and efficient workflow:
 
 Clearly define roles and responsibilities: Make sure everyone on the team knows what they're responsible for and what their specific tasks are.
@@ -21,6 +22,7 @@ Keep the code secure: Be mindful of sensitive information and follow best practi
 Stay up to date: Regularly pulling changes from the main repository and keeping your local copy updated can help prevent conflicts and ensure that everyone is working with the latest version of the code.
 
 By following these guidelines, you can help ensure a smooth and productive collaboration experience on GitHub.
+
 """
 
 
