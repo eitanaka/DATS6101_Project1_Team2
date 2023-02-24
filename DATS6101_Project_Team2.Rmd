@@ -22,9 +22,9 @@ When you click the **Knit** button a document will be generated that includes bo
 ```{r health}
 library(readr)
 ei_dir <-"/Users/eitanaka/Documents/GitHub/DATS6101_Project1_Team2/dataset/geographic_health_disparities.csv"
-henry_df <-"~/Henry/Education/George Washington University/2023 Spring/DATS 6101 Introduction to Data Science/Git/DATS6101_Project1_Team2/dataset/geographic_health_disparities.csv"
+henry_dir <-"~/Henry/Education/George Washington University/2023 Spring/DATS 6101 Introduction to Data Science/Git/DATS6101_Project1_Team2/dataset/geographic_health_disparities.csv"
 ish_dir <- "D:\GWU_ MS in Data Science\Sem1\DATS 6101- Intro to Data Science (64377)\Github\DATS6101_Project1_Team2"
-geo_health_df <- read.csv(ei_dir)
+geo_health_df <- read.csv(henry_dir)
 geo_health_df
 ```
 
