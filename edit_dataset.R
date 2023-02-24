@@ -20,3 +20,7 @@ nrow(new_health_df)
 View(new_health_df)
 str(new_health_df)
 
+write.csv(new_health_df, "Documents/GitHub/DATS6101_Project1_Team2/dataset/geographic_health_disparities.csv", row.names=FALSE)
+
+df <- read.csv("Documents/GitHub/DATS6101_Project1_Team2/dataset/geographic_health_disparities.csv")
+nrow(df)
