@@ -21,7 +21,11 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ```{r health}
 library(readr)
-geographic_health_disparities <- read_csv("Documents/GitHub/DATS6101_Project1_Team2/dataset/geographic_health_disparities.csv")
+ei_dir <-"/Users/eitanaka/Documents/GitHub/DATS6101_Project1_Team2/dataset/geographic_health_disparities.csv"
+ish_dir <-""
+henry_dir <- ""
+geo_health_df <- read.csv(ei_dir)
+geo_health_df
 ```
 
 ## Including Plots
