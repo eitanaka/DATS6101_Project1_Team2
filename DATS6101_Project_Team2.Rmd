@@ -1,39 +1,106 @@
 ---
-title: "DATS6101_Project1_Team2"
+title: "Title"
 author: "Ishani Makwana, Henry Hirsch and Ei Tanaka"
-date: "2023-02-09"
-output: 
-      html_document:
-            hightlight: tango
-      word_document:
-            highlight: tango
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    code_folding: hide
+    number_sections: false
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# Some of common RMD options (and the defaults) are: 
+# include=T, eval=T, echo=T, results='hide'/'asis'/'markup',..., collapse=F, warning=T, message=T, error=T, cache=T, fig.width=6, fig.height=4, fig.dim=c(6,4) #inches, fig.align='left'/'center','right', 
+knitr::opts_chunk$set(warning = F, results = "hide", message = F)
+# Can globally set option for number display format.
+options(scientific=T, digits = 3) 
+# options(scipen=9, digits = 3) 
 ```
 
-## R Markdown
+## Introduction (need edited)
+**(need edited)**
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r health}
+```{r echo=T, eval=T, include=T, results='markup'}
+# Importing a geographic health disparities data set
 library(readr)
+
+# The list of paths for each member
 ei_dir <-"/Users/eitanaka/Documents/GitHub/DATS6101_Project1_Team2/dataset/geographic_health_disparities.csv"
 henry_dir <-"~/Henry/Education/George Washington University/2023 Spring/DATS 6101 Introduction to Data Science/Git/DATS6101_Project1_Team2/dataset/geographic_health_disparities.csv"
-ish_dir <- "D:\GWU_ MS in Data Science\Sem1\DATS 6101- Intro to Data Science (64377)\Github\DATS6101_Project1_Team2"
-geo_health_df <- read.csv(henry_dir)
-geo_health_df
+ish_dir <- "D:/GWU_ MS in Data Science/Sem1/DATS 6101- Intro to Data Science (64377)/Github/DATS6101_Project1_Team2/dataset/geographic_health_disparities.csv"
+
+geo_health_df <- read.csv(ei_dir)
+
+str(geo_health_df)
 ```
 
-## Including Plots
+## Summary Statistics(need edited)
 
-You can also embed plots, for example:
+### Depression by state(need edited)
+```{r echo=T, eval=T, include=T, results='markup'}
+data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+sumamry_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.DEPRESSION))
+head(sumamry_by_state,3)
+tail(sumamry_by_state,3)
+
+mean_by_state <- lapply(data_by_state, function(x) mean(x$Data_Value.DEPRESSION))
+head(mean_by_state,3)
+tail(mean_by_state,3)
+
+sd_by_state <- lapply(data_by_state, function(x) sd(x$Data_Value.DEPRESSION))
+head(sd_by_state,3)
+tail(sd_by_state,3)
+
+# Convert mean_by_state to a data frame
+mean_df <- data.frame(State = names(mean_by_state), Mean_Depression = unlist(mean_by_state))
+
+# Create a bar chart of the mean depression values by state
+barplot(mean_df$Mean_Depression, names.arg = mean_df$State, xlab = "State", ylab = "Mean Depression Value", main = "Mean Depression Values by State")
 ```
+### LPA by state(need edited)
+```{r echo=T, eval=T, include=T, results='markup'}
+sumamry_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.LPA))
+head(sumamry_by_state,3)
+tail(sumamry_by_state,3)
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+mean_by_state <- lapply(data_by_state, function(x) mean(x$Data_Value.LPA))
+head(mean_by_state,3)
+tail(mean_by_state,3)
+
+sd_by_state <- lapply(data_by_state, function(x) sd(x$Data_Value.LPA))
+head(sd_by_state,3)
+tail(sd_by_state,3)
+
+# Convert mean_by_state to a data frame
+mean_df <- data.frame(State = names(mean_by_state), Mean_LPA = unlist(mean_by_state))
+
+# Create a bar chart of the mean depression values by state
+barplot(mean_df$Mean_LPA, names.arg = mean_df$State, xlab = "State", ylab = "Mean LPA Value", main = "Mean LPA Values by State")
+```
+### Sleep by state(need edited)
+```{r echo=T, eval=T, include=T, results='markup'}
+sumamry_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.SLEEP))
+head(sumamry_by_state,3)
+tail(sumamry_by_state,3)
+
+mean_by_state <- lapply(data_by_state, function(x) mean(x$Data_Value.SLEEP))
+head(mean_by_state,3)
+tail(mean_by_state,3)
+
+sd_by_state <- lapply(data_by_state, function(x) sd(x$Data_Value.SLEEP))
+head(sd_by_state,3)
+tail(sd_by_state,3)
+
+# Convert mean_by_state to a data frame
+mean_df <- data.frame(State = names(mean_by_state), Mean_Sleep = unlist(mean_by_state))
+
+# Create a bar chart of the mean depression values by state
+barplot(mean_df$Mean_Sleep, names.arg = mean_df$State, xlab = "State", ylab = "Mean SLEEP Value", main = "Mean SLEEP Values by State")
+```
