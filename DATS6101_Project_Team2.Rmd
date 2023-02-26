@@ -101,3 +101,7 @@ mean_df <- data.frame(State = names(mean_by_state), Mean_Sleep = unlist(mean_by_
 # Create a bar chart of the mean depression values by state
 barplot(mean_df$Mean_Sleep, names.arg = mean_df$State, xlab = "State", ylab = "Mean SLEEP Value", main = "Mean SLEEP Values by State")
 ```
+
+```{r}
+print('test1')
+```
