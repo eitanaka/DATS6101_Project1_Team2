@@ -43,9 +43,9 @@ str(geo_health_df)
 ```{r echo=T, eval=T, include=T, results='markup'}
 data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
 
-sumamry_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.DEPRESSION))
-head(sumamry_by_state,3)
-tail(sumamry_by_state,3)
+summary_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.DEPRESSION))
+head(summary_by_state,3)
+tail(summary_by_state,3)
 
 mean_by_state <- lapply(data_by_state, function(x) mean(x$Data_Value.DEPRESSION))
 head(mean_by_state,3)
@@ -59,33 +59,35 @@ tail(sd_by_state,3)
 mean_df <- data.frame(State = names(mean_by_state), Mean_Depression = unlist(mean_by_state))
 
 # Create a bar chart of the mean depression values by state
-barplot(mean_df$Mean_Depression, names.arg = mean_df$State, xlab = "State", ylab = "Mean Depression Value", main = "Mean Depression Values by State")
+barplot(mean_df$Mean_Depression, names.arg = mean_df$State, xlab = "State", ylab = "Mean Depression Value", col = "pink", main = "Mean Depression Values by State")
 ```
-### LPA by state(need edited)
-```{r echo=T, eval=T, include=T, results='markup'}
-sumamry_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.LPA))
-head(sumamry_by_state,3)
-tail(sumamry_by_state,3)
 
-mean_by_state <- lapply(data_by_state, function(x) mean(x$Data_Value.LPA))
+### Mental health by state(need edited)
+```{r echo=T, eval=T, include=T, results='markup'}
+summary_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.MHLTH))
+head(summary_by_state,3)
+tail(summary_by_state,3)
+
+mean_by_state <- lapply(data_by_state, function(x) mean(x$Data_Value.MHLTH))
 head(mean_by_state,3)
 tail(mean_by_state,3)
 
-sd_by_state <- lapply(data_by_state, function(x) sd(x$Data_Value.LPA))
+sd_by_state <- lapply(data_by_state, function(x) sd(x$Data_Value.MHLTH))
 head(sd_by_state,3)
 tail(sd_by_state,3)
 
 # Convert mean_by_state to a data frame
-mean_df <- data.frame(State = names(mean_by_state), Mean_LPA = unlist(mean_by_state))
+mean_df <- data.frame(State = names(mean_by_state), Mean_MHLTH = unlist(mean_by_state))
 
 # Create a bar chart of the mean depression values by state
-barplot(mean_df$Mean_LPA, names.arg = mean_df$State, xlab = "State", ylab = "Mean LPA Value", main = "Mean LPA Values by State")
+barplot(mean_df$Mean_MHLTH, names.arg = mean_df$State, xlab = "State", ylab = "Mean Mental Value", col = "green", main = "Mean mental Values by State")
 ```
+
 ### Sleep by state(need edited)
 ```{r echo=T, eval=T, include=T, results='markup'}
-sumamry_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.SLEEP))
-head(sumamry_by_state,3)
-tail(sumamry_by_state,3)
+summary_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.SLEEP))
+head(summary_by_state,3)
+tail(summary_by_state,3)
 
 mean_by_state <- lapply(data_by_state, function(x) mean(x$Data_Value.SLEEP))
 head(mean_by_state,3)
@@ -99,5 +101,7 @@ tail(sd_by_state,3)
 mean_df <- data.frame(State = names(mean_by_state), Mean_Sleep = unlist(mean_by_state))
 
 # Create a bar chart of the mean depression values by state
-barplot(mean_df$Mean_Sleep, names.arg = mean_df$State, xlab = "State", ylab = "Mean SLEEP Value", main = "Mean SLEEP Values by State")
+barplot(mean_df$Mean_Sleep, names.arg = mean_df$State, xlab = "State", ylab = "Mean SLEEP Value", col = "blue", main = "Mean SLEEP Values by State")
 ```
+
+
