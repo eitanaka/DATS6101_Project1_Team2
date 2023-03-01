@@ -14,6 +14,12 @@ output:
     toc_depth: '3'
 ---
 
+```{r init, include=F}
+library(readr)
+library(usmap)
+library(ggplot2)
+```
+
 ```{r setup, include=FALSE}
 # Some of common RMD options (and the defaults) are: 
 # include=T, eval=T, echo=T, results='hide'/'asis'/'markup',..., collapse=F, warning=T, message=T, error=T, cache=T, fig.width=6, fig.height=4, fig.dim=c(6,4) #inches, fig.align='left'/'center','right', 
@@ -26,21 +32,18 @@ options(scientific=T, digits = 3)
 ## Introduction (need edited)
 **(need edited)**
 
-```{r echo=T, eval=T, include=T, results='markup'}
+```{r init_data}
 # Importing a geographic health disparities data set
-library(readr)
 
 urlfile = 'https://raw.githubusercontent.com/eitanaka/DATS6101_Project1_Team2/main/dataset/geographic_health_disparities.csv'
 
 geo_health_df <- read_csv(url(urlfile))
-
-str(geo_health_df)
 ```
 
 ## Summary Statistics(need edited)
 
 ### Depression by state(need edited)
-```{r echo=T, eval=T, include=T, results='markup'}
+```{r EDA_basicstats_Depression}
 data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
 
 sumamry_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.DEPRESSION))
@@ -60,9 +63,23 @@ mean_df <- data.frame(State = names(mean_by_state), Mean_Depression = unlist(mea
 
 # Create a bar chart of the mean depression values by state
 barplot(mean_df$Mean_Depression, names.arg = mean_df$State, xlab = "State", ylab = "Mean Depression Value", main = "Mean Depression Values by State")
+
+# Create a new maps object
+mean_df["fips"] <- fips(mean_df$State)
+
+plot_usmap(data=mean_df, values="Mean_Depression", labels = TRUE) +
+  scale_fill_continuous(low = "white", high = "red", guide = FALSE) +
+  scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
+  ggtitle("Mean_Depression by State") +
+  guides(fill = guide_colorbar(title = "Mean_Depression", 
+                                title.position = "top", 
+                                title.hjust = 0.5, 
+                                label.position = "left",
+                                label.hjust = 0.5))
 ```
+
 ### LPA by state(need edited)
-```{r echo=T, eval=T, include=T, results='markup'}
+```{r EDA_basicstats_LPA}
 sumamry_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.LPA))
 head(sumamry_by_state,3)
 tail(sumamry_by_state,3)
@@ -80,9 +97,23 @@ mean_df <- data.frame(State = names(mean_by_state), Mean_LPA = unlist(mean_by_st
 
 # Create a bar chart of the mean depression values by state
 barplot(mean_df$Mean_LPA, names.arg = mean_df$State, xlab = "State", ylab = "Mean LPA Value", main = "Mean LPA Values by State")
+
+# Create a new maps object
+mean_df["fips"] <- fips(mean_df$State)
+
+plot_usmap(data=mean_df, values="Mean_LPA", labels = TRUE) +
+  scale_fill_continuous(low = "white", high = "red", guide = FALSE) +
+  scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
+  ggtitle("Mean_LPA by State") +
+  guides(fill = guide_colorbar(title = "Mean_LPA", 
+                                title.position = "top", 
+                                title.hjust = 0.5, 
+                                label.position = "left",
+                                label.hjust = 0.5))
 ```
+
 ### Sleep by state(need edited)
-```{r echo=T, eval=T, include=T, results='markup'}
+```{r EDA_basicstats_Sleep}
 sumamry_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.SLEEP))
 head(sumamry_by_state,3)
 tail(sumamry_by_state,3)
@@ -100,4 +131,17 @@ mean_df <- data.frame(State = names(mean_by_state), Mean_Sleep = unlist(mean_by_
 
 # Create a bar chart of the mean depression values by state
 barplot(mean_df$Mean_Sleep, names.arg = mean_df$State, xlab = "State", ylab = "Mean SLEEP Value", main = "Mean SLEEP Values by State")
+
+mean_df["fips"] <- fips(mean_df$State)
+
+# Create a new maps object
+plot_usmap(data=mean_df, values="Mean_Sleep", labels = TRUE) +
+  scale_fill_continuous(low = "white", high = "red", guide = FALSE) +
+  scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
+  ggtitle("Mean Sleep by State") +
+  guides(fill = guide_colorbar(title = "Mean Sleep", 
+                                title.position = "top", 
+                                title.hjust = 0.5, 
+                                label.position = "left",
+                                label.hjust = 0.5))
 ```
