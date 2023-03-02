@@ -15,10 +15,10 @@ output:
 ---
 
 ```{r init, include=F}
+rm(list=ls())
 library(readr)
 library(usmap)
 library(ggplot2)
-rm(list=ls())
 ```
 
 ```{r setup, include=FALSE}
@@ -62,7 +62,7 @@ mean_by_state_DEPRESSION <- lapply(data_by_state, function(x) mean(x$Data_Value.
 mean_df_DEPRESSION <- data.frame(State = names(mean_by_state_DEPRESSION), Mean_Depression = unlist(mean_by_state_DEPRESSION))
 
 # Create a bar chart of the mean depression values by state
-barplot(mean_df_DEPRESSION$Mean_Depression, names.arg = mean_df_DEPRESSION$State, xlab = "State", ylab = "Mean Depression Value", col = "pink", main = "Mean Depression Values by State")
+barplot(mean_df_DEPRESSION$Mean_Depression, names.arg = mean_df_DEPRESSION$State, xlab = "State", ylab = "Mean Depression Value", col = "red", main = "Mean Depression Values by State")
 
 # Create a new maps object
 mean_df_DEPRESSION["fips"] <- fips(mean_df_DEPRESSION$State)
@@ -98,7 +98,7 @@ barplot(mean_df_MHLTH$Mean_MHLTH, names.arg = mean_df_MHLTH$State, xlab = "State
 mean_df_MHLTH["fips"] <- fips(mean_df_MHLTH$State)
 
 plot_usmap(data=mean_df_MHLTH, values="Mean_MHLTH", labels = TRUE) +
-  scale_fill_continuous(low = "white", high = "red", guide = FALSE) +
+  scale_fill_continuous(low = "white", high = "green", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
   ggtitle("Mean_LPA by State") +
   guides(fill = guide_colorbar(title = " Mean_MHLTH", 
@@ -129,7 +129,7 @@ mean_df_SLEEP["fips"] <- fips(mean_df_SLEEP$State)
 
 # Create a new maps object
 plot_usmap(data=mean_df_SLEEP, values="Mean_Sleep", labels = TRUE) +
-  scale_fill_continuous(low = "white", high = "red", guide = FALSE) +
+  scale_fill_continuous(low = "white", high = "blue", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
   ggtitle("Mean Sleep by State") +
   guides(fill = guide_colorbar(title = "Mean Sleep", 
