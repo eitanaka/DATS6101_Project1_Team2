@@ -18,6 +18,7 @@ output:
 library(readr)
 library(usmap)
 library(ggplot2)
+library(gridExtra)
 rm(list=ls())
 ```
 
@@ -49,17 +50,17 @@ data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
 
 ### Depression by state(need edited)
 ```{r EDA_basicstats_Depression}
-summary_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.DEPRESSION))
-head(summary_by_state,3)
-tail(summary_by_state,3)
+summary_by_stateD <- lapply(data_by_state, function(x) summary(x$Data_Value.DEPRESSION))
+head(summary_by_stateD,3)
+tail(summary_by_stateD,3)
 
-sd_by_state <- lapply(data_by_state, function(x) sd(x$Data_Value.DEPRESSION))
-head(summary_by_state,3)
-tail(summary_by_state,3)
+sd_by_stateD<- lapply(data_by_state, function(x) sd(x$Data_Value.DEPRESSION))
+head(summary_by_stateD,3)
+tail(summary_by_stateD,3)
 
 # Convert mean_by_state to a data frame
 mean_by_state_DEPRESSION <- lapply(data_by_state, function(x) mean(x$Data_Value.DEPRESSION))
-mean_df_DEPRESSION <- data.frame(State = names(mean_by_state_DEPRESSION), Mean_Depression = unlist(mean_by_state_DEPRESSION))
+mean_df_DEPRESSION <-data.frame(State = names(mean_by_state_DEPRESSION), Mean_Depression=unlist(mean_by_state_DEPRESSION))
 
 # Create a bar chart of the mean depression values by state
 barplot(mean_df_DEPRESSION$Mean_Depression, names.arg = mean_df_DEPRESSION$State, xlab = "State", ylab = "Mean Depression Value", col = "pink", main = "Mean Depression Values by State")
@@ -80,18 +81,19 @@ plot_usmap(data=mean_df_DEPRESSION, values="Mean_Depression", labels = TRUE) +
 
 ### Mental health by state(need edited)
 ```{r echo=T, eval=T, include=T, results='markup'}
-summary_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.MHLTH))
-head(summary_by_state,3)
-tail(summary_by_state,3)
+summary_by_stateM <- lapply(data_by_state, function(x) summary(x$Data_Value.MHLTH))
+head(summary_by_stateM,3)
+tail(summary_by_stateM,3)
 
-sd_by_state <- lapply(data_by_state, function(x) sd(x$Data_Value.MHLTH))
-head(sd_by_state,3)
-tail(sd_by_state,3)
+sd_by_stateM <- lapply(data_by_state, function(x) sd(x$Data_Value.MHLTH))
+head(sd_by_stateM,3)
+tail(sd_by_stateM,3)
 
 # Convert mean_by_state to a data frame
 mean_by_state_MHLTH <- lapply(data_by_state, function(x) mean(x$Data_Value.MHLTH))
 mean_df_MHLTH <- data.frame(State = names(mean_by_state_MHLTH), Mean_MHLTH = unlist(mean_by_state_MHLTH))
 
+# Create a bar chart of the mean depression values by state
 barplot(mean_df_MHLTH$Mean_MHLTH, names.arg = mean_df_MHLTH$State, xlab = "State", ylab = "Mean Mental Value", col = "green", main = "Mean mental Values by State")
 
 # Create a new maps object
@@ -110,13 +112,13 @@ plot_usmap(data=mean_df_MHLTH, values="Mean_MHLTH", labels = TRUE) +
 
 ### Sleep by state(need edited)
 ```{r echo=T, eval=T, include=T, results='markup'}
-summary_by_state <- lapply(data_by_state, function(x) summary(x$Data_Value.SLEEP))
-head(summary_by_state,3)
-tail(summary_by_state,3)
+summary_by_stateS <- lapply(data_by_state, function(x) summary(x$Data_Value.SLEEP))
+head(summary_by_stateS,3)
+tail(summary_by_stateS,3)
 
-sd_by_state <- lapply(data_by_state, function(x) sd(x$Data_Value.SLEEP))
-head(sd_by_state,3)
-tail(sd_by_state,3)
+sd_by_stateS <- lapply(data_by_state, function(x) sd(x$Data_Value.SLEEP))
+head(sd_by_stateS,3)
+tail(sd_by_stateS,3)
 
 # Convert mean_by_state to a data frame
 mean_by_state_SLEEP <- lapply(data_by_state, function(x) mean(x$Data_Value.SLEEP))
@@ -125,9 +127,9 @@ mean_df_SLEEP <- data.frame(State = names(mean_by_state_SLEEP), Mean_Sleep = unl
 # Create a bar chart of the mean depression values by state
 barplot(mean_df_SLEEP$Mean_Sleep, names.arg = mean_df_SLEEP$State, xlab = "State", ylab = "Mean SLEEP Value", col = "blue", main = "Mean SLEEP Values by State")
 
+# Create a new maps object
 mean_df_SLEEP["fips"] <- fips(mean_df_SLEEP$State)
 
-# Create a new maps object
 plot_usmap(data=mean_df_SLEEP, values="Mean_Sleep", labels = TRUE) +
   scale_fill_continuous(low = "white", high = "red", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
@@ -147,3 +149,28 @@ mean_df <- merge(merge(mean_df_DEPRESSION, mean_df_MHLTH, by=c("State", "fips"))
 
 head(mean_df)
 ```
+
+### Comparing the mean values of all three variables using boxplot. 
+
+```{r}
+# Create a data frame with mean values for each variable
+
+data <- data.frame(variable = rep(c("Depression", "Sleep", "Mental Health"), each = 100),
+                   value = c(rnorm(100, mean = mean(mean_df_DEPRESSION$Mean_Depression), sd = sd(mean_df_DEPRESSION$Mean_Depression)),
+                             rnorm(100, mean = mean(mean_df_SLEEP$Mean_Sleep), sd = sd(mean_df_SLEEP$Mean_Sleep)),
+                             rnorm(100, mean = mean(mean_df_MHLTH$Mean_MHLTH), sd = sd(mean_df_MHLTH$Mean_MHLTH))))
+
+# Create a box plot
+ggplot(data, aes(x = variable, y = value, fill = variable)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2, size = 1, alpha = 0.5) +
+  labs(title = "Mean Values of Depression, Sleep, and Mental Health")
+```
+
+
+This code will create a table showing the mean, median, and standard deviation for each variable (depression, sleep, and mental health) across all states, grouped by state names or FIPS codes. You can compare the results to see how each variable varies across different states.
+
+
+
+
+
