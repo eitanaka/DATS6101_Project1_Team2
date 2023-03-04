@@ -17,6 +17,8 @@ output:
 ```{r init, include=F}
 rm(list=ls())
 library(readr)
+require(corrplot)
+library(dplyr)
 library(usmap)
 library(ggplot2)
 library(gridExtra)
@@ -95,13 +97,13 @@ mean_by_state_MHLTH <- lapply(data_by_state, function(x) mean(x$Data_Value.MHLTH
 mean_df_MHLTH <- data.frame(State = names(mean_by_state_MHLTH), Mean_MHLTH = unlist(mean_by_state_MHLTH))
 
 # Create a bar chart of the mean depression values by state
-barplot(mean_df_MHLTH$Mean_MHLTH, names.arg = mean_df_MHLTH$State, xlab = "State", ylab = "Mean Mental Value", col = "green", main = "Mean mental Values by State")
+barplot(mean_df_MHLTH$Mean_MHLTH, names.arg = mean_df_MHLTH$State, xlab = "State", ylab = "Mean Mental Value", col = "yellow", main = "Mean mental Values by State")
 
 # Create a new maps object
 mean_df_MHLTH["fips"] <- fips(mean_df_MHLTH$State)
 
 plot_usmap(data=mean_df_MHLTH, values="Mean_MHLTH", labels = TRUE) +
-  scale_fill_continuous(low = "white", high = "green", guide = FALSE) +
+  scale_fill_continuous(low = "white", high = "yellow", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
   ggtitle("Mean_LPA by State") +
   guides(fill = guide_colorbar(title = " Mean_MHLTH", 
@@ -140,12 +142,8 @@ plot_usmap(data=mean_df_SLEEP, values="Mean_Sleep", labels = TRUE) +
                                 title.hjust = 0.5, 
                                 label.position = "left",
                                 label.hjust = 0.5))
-
-
-# THIS IS HENRY'S COMMENT FOR THE NEW BRANCH
 ```
 
-```
 
 ### Corelation between each disease by state
 ```{r}
@@ -172,9 +170,42 @@ ggplot(data, aes(x = variable, y = value, fill = variable)) +
   geom_boxplot() +
   geom_jitter(width = 0.2, size = 1, alpha = 0.5) +
   labs(title = "Mean Values of Depression, Sleep, and Mental Health")
+
+# ^ figure out how to change green to yellow
 ```
 
 
 This code will create a table showing the mean, median, and standard deviation for each variable (depression, sleep, and mental health) across all states, grouped by state names or FIPS codes. You can compare the results to see how each variable varies across different states.
+
+```{r}
+# create mean dataframe for all three conditions
+mean_df <- data.frame(mean_df_DEPRESSION, mean_df_MHLTH, mean_df_SLEEP)
+mean_df <- select(mean_df, -c("State.1", "fips.1", "State.2", "fips.2"))
+mean_df <- select(mean_df, "State", "fips", "Mean_Depression", "Mean_MHLTH", "Mean_Sleep")
+
+# create national correlation matrix
+cor_matrix <- cor(mean_df[ , c("Mean_Depression", "Mean_MHLTH", "Mean_Sleep")])
+
+# create national correlation heat map
+cor_heat_map <- corrplot(cor_matrix, method = "color")
+
+# create correlation list of matrices for states
+cor_by_state <- lapply(data_by_state, function(state_data) {
+  cor(state_data[c("Data_Value.DEPRESSION", "Data_Value.MHLTH", "Data_Value.SLEEP")])
+})
+
+# create state correlation matrix
+dep_mhlth.cor <- sapply(cor_by_state, function(state) state[1,2])
+dep_slp.cor <- sapply(cor_by_state, function(state) state[1,3])
+mhlth.slp.cor <- sapply(cor_by_state, function(state) state[2,3])
+
+state_cor_df <- data.frame(state = mean_df$State, dep_mhlth.cor, dep_slp.cor, mhlth.slp.cor)
+state_cor_df["fips"] <- fips(state_cor_df$state)
+state_cor_df <- select(state_cor_df, "state", "fips", "dep_mhlth.cor", "dep_slp.cor", "mhlth.slp.cor")
+```
+
+
+
+
 
 
