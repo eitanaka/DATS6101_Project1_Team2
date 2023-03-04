@@ -202,8 +202,20 @@ state_cor_df["fips"] <- fips(state_cor_df$state)
 state_cor_df <- select(state_cor_df, "state", "fips", "dep_mhlth.cor", "dep_slp.cor", "mhlth.slp.cor")
 ```
 
+```{r}
+# us correlation maps
+plot_usmap(data=state_cor_df, values="dep_mhlth.cor", labels = TRUE) +
+  scale_fill_continuous(low = "white", high = "orange", guide = FALSE) +
+  scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
+  ggtitle("Correlation Betweeen Depression and Mental Health") +
+  guides(fill = guide_colorbar(title = "Correlation", 
+                                title.position = "top", 
+                                title.hjust = 0.5, 
+                                label.position = "left",
+                                label.hjust = 0.5))
 
+```
 
-
+First correlation between depression and mental health. 
 
 
