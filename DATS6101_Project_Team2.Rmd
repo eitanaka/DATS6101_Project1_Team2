@@ -142,11 +142,11 @@ plot_usmap(data=mean_df_SLEEP, values="Mean_Sleep", labels = TRUE) +
 ```
 
 ### Corelation between each disease by state
+
 ```{r}
 # Compute the correlation matrix
 # Merge the first two data frames by the "id" column
 mean_df <- merge(merge(mean_df_DEPRESSION, mean_df_MHLTH, by=c("State", "fips")), mean_df_SLEEP, by=c("State", "fips"))
-
 head(mean_df)
 ```
 
@@ -154,12 +154,10 @@ head(mean_df)
 
 ```{r}
 # Create a data frame with mean values for each variable
-
 data <- data.frame(variable = rep(c("Depression", "Sleep", "Mental Health"), each = 100),
-                   value = c(rnorm(100, mean = mean(mean_df_DEPRESSION$Mean_Depression), sd = sd(mean_df_DEPRESSION$Mean_Depression)),
-                             rnorm(100, mean = mean(mean_df_SLEEP$Mean_Sleep), sd = sd(mean_df_SLEEP$Mean_Sleep)),
-                             rnorm(100, mean = mean(mean_df_MHLTH$Mean_MHLTH), sd = sd(mean_df_MHLTH$Mean_MHLTH))))
-
+                   value = c(rnorm(1000, mean = mean(mean_df_DEPRESSION$Mean_Depression), sd = sd(mean_df_DEPRESSION$Mean_Depression)),
+                             rnorm(1000, mean = mean(mean_df_SLEEP$Mean_Sleep), sd = sd(mean_df_SLEEP$Mean_Sleep)),
+                             rnorm(1000, mean = mean(mean_df_MHLTH$Mean_MHLTH), sd = sd(mean_df_MHLTH$Mean_MHLTH))))
 # Create a box plot
 ggplot(data, aes(x = variable, y = value, fill = variable)) +
   geom_boxplot() +
@@ -169,8 +167,5 @@ ggplot(data, aes(x = variable, y = value, fill = variable)) +
 
 
 This code will create a table showing the mean, median, and standard deviation for each variable (depression, sleep, and mental health) across all states, grouped by state names or FIPS codes. You can compare the results to see how each variable varies across different states.
-
-
-
 
 
