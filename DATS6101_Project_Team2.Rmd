@@ -17,6 +17,7 @@ output:
 ```{r init, include=F}
 rm(list=ls())
 library(readr)
+library(reshape2)
 library(corrplot)
 library(dplyr)
 library(usmap)
@@ -103,7 +104,7 @@ mean_df_MHLTH <- data.frame(State = names(mean_by_state_MHLTH), Mean_MHLTH = unl
 mean_df_MHLTH["fips"] <- fips(mean_df_MHLTH$State)
 
 plot_usmap(data=mean_df_MHLTH, values="Mean_MHLTH", labels = TRUE) +
-  scale_fill_continuous(low = "white", high = "yellow", guide = FALSE) +
+  scale_fill_continuous(low = "white", high = "green", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
   ggtitle("Mean Mental Health by State") +
   guides(fill = guide_colorbar(title = " Mean %", 
@@ -134,7 +135,7 @@ mean_df_SLEEP <- data.frame(State = names(mean_by_state_SLEEP), Mean_Sleep = unl
 mean_df_SLEEP["fips"] <- fips(mean_df_SLEEP$State)
 
 plot_usmap(data=mean_df_SLEEP, values="Mean_Sleep", labels = TRUE) +
-  scale_fill_continuous(low = "white", high = "blue", guide = FALSE) +
+  scale_fill_continuous(low = "white", high = "purple", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
   ggtitle("Mean Sleep by State") +
   guides(fill = guide_colorbar(title = "Mean %", 
@@ -161,7 +162,7 @@ mean_df_LPA <- data.frame(State = names(mean_by_state_LPA), Mean_LPA = unlist(me
 mean_df_LPA["fips"] <- fips(mean_df_LPA$State)
 
 plot_usmap(data=mean_df_LPA, values="Mean_LPA", labels = TRUE) +
-  scale_fill_continuous(low = "white", high = "green", guide = FALSE) +
+  scale_fill_continuous(low = "white", high = "cyan", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
   ggtitle("Mean Lack of Physial Activity by State") +
   guides(fill = guide_colorbar(title = "Mean %", 
@@ -189,13 +190,13 @@ head(mean_df)
 # Create a data frame with mean values for each variable
 
 
-# Create a box plot
-ggplot(data, aes(x = variable, y = value, fill = variable)) +
-  geom_boxplot() +
-#  facet_wrap(~ variable, ncol=4)
-  geom_jitter(width = 0.2, size = 1, alpha = 0.5) +
-  scale_fill_manual(values = c("blue", "red", "green", "yellow")) +
-  labs(title = "Mean Values of Depression, Sleep, LPA and Mental Health")
+# # Create a box plot
+# ggplot(data, aes(x = variable, y = value, fill = variable)) +
+#   geom_boxplot() +
+# #  facet_wrap(~ variable, ncol=4)
+#   geom_jitter(width = 0.2, size = 1, alpha = 0.5) +
+#   scale_fill_manual(values = c("blue", "red", "green", "yellow")) +
+#   labs(title = "Mean Values of Depression, Sleep, LPA and Mental Health")
 
 # ^ figure out how to change green to yellow
 ```
@@ -266,6 +267,7 @@ mixed_cor_heat_map
 #                                 label.hjust = 0.5))
 ```
 
+
 ```{r}
 #Linear regression
 # data frame is named 'mean_df'
@@ -281,5 +283,31 @@ summary(Linear_reg)
 Linear_reg <- lm(MHLTH ~ LPA, data = mean_df)
 summary(Linear_reg)
 ```
+
+
+```{r}
+# create scatter plots
+# sleep scatter plot
+ggplot(mean_df, aes(x = Sleep)) +
+  geom_point(aes(y = Depression, color = "Depression")) +
+  geom_point(aes(y = MHLTH, color = "MHLTH")) +
+  scale_color_manual(name = "Health Outcomes", values = c("Depression" = "red", "MHLTH" = "green")) +
+  labs(x = "% Lacking Sleep", 
+       y = "% With Health Outcomes",
+       title = "Correlation Between Lack of Sleep and Health Outcomes")
+
+
+# lpa scatter plot
+ggplot(mean_df, aes(x = LPA)) +
+  geom_point(aes(y = Depression, color = "Depression")) +
+  geom_point(aes(y = MHLTH, color = "MHLTH")) +
+  scale_color_manual(name = "Health Outcomes", values = c("Depression" = "red", "MHLTH" = "green")) +
+  labs(x = "% Lacking Physical Activity", 
+       y = "% With Health Outcomes",
+       title = "Correlation Between Lack of Physical Activity and Health Outcomes")
+```
+
+
+
 
 
