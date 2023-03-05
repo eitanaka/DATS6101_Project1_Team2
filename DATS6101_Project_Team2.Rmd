@@ -187,15 +187,15 @@ head(mean_df)
 
 ```{r}
 # Create a data frame with mean values for each variable
-data <- data.frame(variable = rep(c("Depression", "Sleep", "Mental Health"), each = 100),
-                   value = c(rnorm(1000, mean = mean(mean_df_DEPRESSION$Mean_Depression), sd = sd(mean_df_DEPRESSION$Mean_Depression)),
-                             rnorm(1000, mean = mean(mean_df_SLEEP$Mean_Sleep), sd = sd(mean_df_SLEEP$Mean_Sleep)),
-                             rnorm(1000, mean = mean(mean_df_MHLTH$Mean_MHLTH), sd = sd(mean_df_MHLTH$Mean_MHLTH))))
+
+
 # Create a box plot
 ggplot(data, aes(x = variable, y = value, fill = variable)) +
   geom_boxplot() +
+#  facet_wrap(~ variable, ncol=4)
   geom_jitter(width = 0.2, size = 1, alpha = 0.5) +
-  labs(title = "Mean Values of Depression, Sleep, and Mental Health")
+  scale_fill_manual(values = c("blue", "red", "green", "yellow")) +
+  labs(title = "Mean Values of Depression, Sleep, LPA and Mental Health")
 
 # ^ figure out how to change green to yellow
 ```
