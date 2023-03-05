@@ -266,7 +266,20 @@ mixed_cor_heat_map
 #                                 label.hjust = 0.5))
 ```
 
+```{r}
+#Linear regression
+# data frame is named 'mean_df'
+Linear_reg <- lm(Depression ~ Sleep, data = mean_df)
+summary(Linear_reg)
 
+Linear_reg <- lm(Depression ~ LPA, data = mean_df)
+summary(Linear_reg)
 
+Linear_reg <- lm(MHLTH ~ Sleep, data = mean_df)
+summary(Linear_reg)
+
+Linear_reg <- lm(MHLTH ~ LPA, data = mean_df)
+summary(Linear_reg)
+```
 
 
