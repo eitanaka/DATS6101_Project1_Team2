@@ -66,7 +66,7 @@ mean_by_state_DEPRESSION <- lapply(data_by_state, function(x) mean(x$Data_Value.
 mean_df_DEPRESSION <-data.frame(State = names(mean_by_state_DEPRESSION), Mean_Depression=unlist(mean_by_state_DEPRESSION))
 
 # Create a bar chart of the mean depression values by state
-barplot(mean_df_DEPRESSION$Mean_Depression, names.arg = mean_df_DEPRESSION$State, xlab = "State", ylab = "Mean Depression Value", col = "red", main = "Mean Depression Values by State")
+#barplot(mean_df_DEPRESSION$Mean_Depression, names.arg = mean_df_DEPRESSION$State, xlab = "State", ylab = "Mean Depression #Value", col = "red", main = "Mean Depression Values by State")
 
 # Create a new maps object
 mean_df_DEPRESSION["fips"] <- fips(mean_df_DEPRESSION$State)
@@ -97,7 +97,7 @@ mean_by_state_MHLTH <- lapply(data_by_state, function(x) mean(x$Data_Value.MHLTH
 mean_df_MHLTH <- data.frame(State = names(mean_by_state_MHLTH), Mean_MHLTH = unlist(mean_by_state_MHLTH))
 
 # Create a bar chart of the mean depression values by state
-barplot(mean_df_MHLTH$Mean_MHLTH, names.arg = mean_df_MHLTH$State, xlab = "State", ylab = "Mean Mental Value", col = "yellow", main = "Mean mental Values by State")
+#barplot(mean_df_MHLTH$Mean_MHLTH, names.arg = mean_df_MHLTH$State, xlab = "State", ylab = "Mean Mental Value", col = #"yellow", main = "Mean mental Values by State")
 
 # Create a new maps object
 mean_df_MHLTH["fips"] <- fips(mean_df_MHLTH$State)
@@ -128,7 +128,7 @@ mean_by_state_SLEEP <- lapply(data_by_state, function(x) mean(x$Data_Value.SLEEP
 mean_df_SLEEP <- data.frame(State = names(mean_by_state_SLEEP), Mean_Sleep = unlist(mean_by_state_SLEEP))
 
 # Create a bar chart of the mean depression values by state
-barplot(mean_df_SLEEP$Mean_Sleep, names.arg = mean_df_SLEEP$State, xlab = "State", ylab = "Mean SLEEP Value", col = "blue", main = "Mean SLEEP Values by State")
+#barplot(mean_df_SLEEP$Mean_Sleep, names.arg = mean_df_SLEEP$State, xlab = "State", ylab = "Mean SLEEP Value", col = #"blue", main = "Mean SLEEP Values by State")
 
 # Create a new maps object
 mean_df_SLEEP["fips"] <- fips(mean_df_SLEEP$State)
@@ -216,10 +216,5 @@ plot_usmap(data=state_cor_df, values="dep_mhlth.cor", labels = TRUE) +
 
 ```
 
-First correlation between depression and mental health. 
 
-## this is just a try
-```{r}
-Here we are going to add LPA
-```
 
