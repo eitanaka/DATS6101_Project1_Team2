@@ -271,19 +271,15 @@ mixed_cor_heat_map
 ```{r}
 #Linear regression
 # data frame is named 'mean_df'
-Linear_reg <- lm(Depression ~ Sleep, data = mean_df)
+Linear_reg <- lm(Depression ~ Sleep + LPA, data = mean_df)
 summary(Linear_reg)
 
-Linear_reg <- lm(Depression ~ LPA, data = mean_df)
+
+Linear_reg <- lm(MHLTH ~ Sleep + LPA, data = mean_df)
 summary(Linear_reg)
 
-Linear_reg <- lm(MHLTH ~ Sleep, data = mean_df)
-summary(Linear_reg)
-
-Linear_reg <- lm(MHLTH ~ LPA, data = mean_df)
-summary(Linear_reg)
 ```
-
+ we failed to reject depression and there is a significant test for mental health . that means mental health is effected by sleep and LPA. 
 
 ```{r}
 # create scatter plots
