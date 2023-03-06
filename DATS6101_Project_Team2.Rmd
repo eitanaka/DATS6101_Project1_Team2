@@ -49,7 +49,7 @@ geo_health_df <- read_csv(url(urlfile))
 data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
 ```
 
-### Depression by state(need edited)
+### Depression by state(The variable about Health outcome)
 ```{r EDA_basicstats_Depression}
 # Summary statistic about percentage of population affected with depression in each state
 summary_by_state_DEPRESSION <- lapply(data_by_state, function(x) summary(x$Data_Value.DEPRESSION))
@@ -80,7 +80,7 @@ plot_usmap(data=mean_df_DEPRESSION, values="Mean_Depression", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-### Mental health by state(need edited)
+### Mental health by state(The variable about Health Status)
 ```{r echo=T, eval=T, include=T, results='markup'}
 # Summary of the percentage of the population in each country in each state with a health status of 14 or more days with poor mental health
 summary_by_state_MHLTH <- lapply(data_by_state, function(x) summary(x$Data_Value.MHLTH))
@@ -111,7 +111,7 @@ plot_usmap(data=mean_df_MHLTH, values="Mean_MHLTH", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-### Sleep by state(need edited)
+### Sleep by state(The variable about Health Risk Behabior)
 ```{r echo=T, eval=T, include=T, results='markup'}
 summary_by_stateS <- lapply(data_by_state, function(x) summary(x$Data_Value.SLEEP))
 head(summary_by_stateS,3)
@@ -142,6 +142,7 @@ plot_usmap(data=mean_df_SLEEP, values="Mean_Sleep", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
+### LPA by state (A variable about Health Risk Behavior)
 ```{r}
 summary_by_stateS <- lapply(data_by_state, function(x) summary(x$Data_Value.LPA))
 head(summary_by_stateS,3)
@@ -171,7 +172,6 @@ plot_usmap(data=mean_df_LPA, values="Mean_LPA", labels = TRUE) +
 
 
 ### Corelation between each disease by state
-
 ```{r}
 # Compute the correlation matrix
 # Merge the first two data frames by the "id" column
@@ -264,7 +264,7 @@ mixed_cor_heat_map
 #                                 label.hjust = 0.5))
 ```
 
-
+### Linear Regression Test
 ```{r}
 #Linear regression
 # data frame is named 'mean_df'
@@ -278,6 +278,7 @@ summary(Linear_reg)
 ```
  we failed to reject depression and there is a significant test for mental health . that means mental health is effected by sleep and LPA. 
 
+### Scatter plot for 2 health risk behavior and a health outcomes ,and Health Status
 ```{r}
 # create scatter plots
 # sleep scatter plot
