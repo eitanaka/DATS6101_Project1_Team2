@@ -23,6 +23,7 @@ library(dplyr)
 library(usmap)
 library(ggplot2)
 library(gridExtra)
+library(tidyr)
 ```
 
 ```{r setup, include=FALSE}
@@ -165,40 +166,40 @@ plot_usmap(data=mean_df_LPA, values="Mean_LPA", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-### Corelation between each disease by state
 ```{r}
-# Compute the correlation matrix
-# Merge the first two data frames by the "id" column
+# create mean_df for all four conditions
 mean_df <- merge(merge(mean_df_DEPRESSION, mean_df_MHLTH, by=c("State", "fips")), mean_df_SLEEP, by=c("State", "fips"))
 mean_df <- merge(mean_df, mean_df_LPA, by=c("State", "fips"))
+colnames(mean_df)[3:6] <- c("Depression", "MHLTH", "Sleep", "LPA")
 head(mean_df)
 ```
 
-
 ### Comparing the mean values of all three variables using boxplot. 
-
 ```{r}
-# Create a data frame with mean values for each variable
+# create a long format of the data
+mean_df_long <- gather(mean_df, key = "Variable", value = "Value", -State, -fips)
 
+# group data by Variable and get the max and min values for each group
+max_min_df <- mean_df_long %>% group_by(Variable) %>% 
+  slice(which.max(Value), which.min(Value)) %>% ungroup()
 
-# # Create a box plot
-# ggplot(data, aes(x = variable, y = value, fill = variable)) +
-#   geom_boxplot() +
-# #  facet_wrap(~ variable, ncol=4)
-#   geom_jitter(width = 0.2, size = 1, alpha = 0.5) +
-#   scale_fill_manual(values = c("blue", "red", "green", "yellow")) +
-#   labs(title = "Mean Values of Depression, Sleep, LPA and Mental Health")
-
-# ^ figure out how to change green to yellow
+## create a box plot for each variable and facet by variable
+ggplot(mean_df_long, aes(x = "", y = Value, fill = Variable)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = Variable), width = 0.2, size = 2) +
+  facet_wrap(~Variable, ncol = 4, scales = "fixed") +
+  scale_fill_manual(values = c("pink","lightgreen", rgb(200, 162, 200, maxColorValue = 255), "cyan")) +
+  scale_color_manual(values = c("darkred","darkgreen", "darkorchid", "darkblue")) +
+  labs(title = "Box plots of population proportions for each Measure", x="Health conditions", y = "Population proportion") +
+  geom_text(data = max_min_df, aes(x = 1.25, y = Value, label = State), size = 4, fontface = "bold", hjust = -0.2, color = "black") # add state labels for max and min values
 ```
-
 
 This code will create a table showing the mean, median, and standard deviation for each variable (depression, sleep, and mental health) across all states, grouped by state names or FIPS codes. You can compare the results to see how each variable varies across different states.
 
-```{r}
-# create mean dataframe for all four conditions
-colnames(mean_df)[3:6] <- c("Depression", "MHLTH", "Sleep", "LPA")
 
+### Corelation between each disease by state
+```{r}
+# Compute the correlation matrix
 # create national correlation matrix
 cor_matrix <- cor(mean_df[ , c("Depression", "MHLTH", "Sleep", "LPA")])
 
