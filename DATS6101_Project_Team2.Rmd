@@ -57,15 +57,13 @@ head(summary_by_state_DEPRESSION,3)
 tail(summary_by_state_DEPRESSION,3)
 
 # A list of standard deviation for percentage of population affected with Depression in each state
-sd_by_stateD<- lapply(data_by_state, function(x) sd(x$Data_Value.DEPRESSION))
-head(summary_by_stateD,3)
-tail(summary_by_stateD,3)
+sd_by_state_DEPRESSION<- lapply(data_by_state, function(x) sd(x$Data_Value.DEPRESSION))
+head(sd_by_state_DEPRESSION,3)
+tail(sd_by_state_DEPRESSION,3)
 
 # A data frame containing mean values of the incidence rate of Depression for each country in each state
 mean_by_state_DEPRESSION <- lapply(data_by_state, function(x) mean(x$Data_Value.DEPRESSION))
 mean_df_DEPRESSION <-data.frame(State = names(mean_by_state_DEPRESSION), Mean_Depression=unlist(mean_by_state_DEPRESSION))
-
-# Add column "fips" into the mean_df_Depression data frame.
 mean_df_DEPRESSION["fips"] <- fips(mean_df_DEPRESSION$State)
 
 # A map of the U.S. showing average percent of people suffering from DEPRESSION for each country in each state
@@ -95,8 +93,6 @@ tail(sd_by_state_MHLTH,3)
 # The data frame containing mean value per state: Percentage of the population in each country with poor mental health for 14 or more days as a health status.
 mean_by_state_MHLTH <- lapply(data_by_state, function(x) mean(x$Data_Value.MHLTH))
 mean_df_MHLTH <- data.frame(State = names(mean_by_state_MHLTH), Mean_MHLTH = unlist(mean_by_state_MHLTH))
-
-# Add fips column in mean_df_MHLTH
 mean_df_MHLTH["fips"] <- fips(mean_df_MHLTH$State)
 
 # Map of the United States plotting the mean percent incidence of the population with poor mental health by state.
@@ -126,8 +122,6 @@ tail(sd_by_state_SLEEP,3)
 # A data frame about mean value per state: Each data is a percentage of sleep disturbance in each country
 mean_by_state_SLEEP <- lapply(data_by_state, function(x) mean(x$Data_Value.SLEEP))
 mean_df_SLEEP <- data.frame(State = names(mean_by_state_SLEEP), Mean_Sleep = unlist(mean_by_state_SLEEP))
-
-# Add new column fips in mean_df_sleep
 mean_df_SLEEP["fips"] <- fips(mean_df_SLEEP$State)
 
 # Map of the United States plotting the mean percent incidence of the population with poor sleep by state.
@@ -144,21 +138,22 @@ plot_usmap(data=mean_df_SLEEP, values="Mean_Sleep", labels = TRUE) +
 
 ### LPA by state (A variable about Health Risk Behavior)
 ```{r}
-summary_by_stateS <- lapply(data_by_state, function(x) summary(x$Data_Value.LPA))
-head(summary_by_stateS,3)
-tail(summary_by_stateS,3)
+# A list of summary statistic per state: Data are percent of population of people without leisure time in each country
+summary_by_state_LPA <- lapply(data_by_state, function(x) summary(x$Data_Value.LPA))
+head(summary_by_state_LPA,3)
+tail(summary_by_state_LPA,3)
 
-sd_by_stateS <- lapply(data_by_state, function(x) sd(x$Data_Value.LPA))
-head(sd_by_stateS,3)
-tail(sd_by_stateS,3)
+# A list of standard deviation per state: data are percent of population of people without leisure time in each country
+sd_by_state_LPA <- lapply(data_by_state, function(x) sd(x$Data_Value.LPA))
+head(sd_by_state_LPA,3)
+tail(sd_by_state_LPA,3)
 
-# Convert mean_by_state to a data frame
+# A data frame about mean value per state: data are percent of population of people without leisure time in each country
 mean_by_state_LPA <- lapply(data_by_state, function(x) mean(x$Data_Value.LPA))
 mean_df_LPA <- data.frame(State = names(mean_by_state_LPA), Mean_LPA = unlist(mean_by_state_LPA))
-
-# Create a new maps object
 mean_df_LPA["fips"] <- fips(mean_df_LPA$State)
 
+# Map of the United States plotting the mean percent incidence of the population without leisure time by state.
 plot_usmap(data=mean_df_LPA, values="Mean_LPA", labels = TRUE) +
   scale_fill_continuous(low = "white", high = "cyan", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
@@ -169,7 +164,6 @@ plot_usmap(data=mean_df_LPA, values="Mean_LPA", labels = TRUE) +
                                 label.position = "left",
                                 label.hjust = 0.5))
 ```
-
 
 ### Corelation between each disease by state
 ```{r}
