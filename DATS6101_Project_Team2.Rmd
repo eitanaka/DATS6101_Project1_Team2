@@ -36,7 +36,6 @@ options(scientific=T, digits = 3)
 
 ## Introduction (need edited)
 **(need edited)**
-
 ```{r init_data}
 # Importing a geographic health disparities data set from github repo
 urlfile = 'https://raw.githubusercontent.com/eitanaka/DATS6101_Project1_Team2/main/dataset/geographic_health_disparities.csv'
@@ -83,25 +82,24 @@ plot_usmap(data=mean_df_DEPRESSION, values="Mean_Depression", labels = TRUE) +
 
 ### Mental health by state(need edited)
 ```{r echo=T, eval=T, include=T, results='markup'}
-# Create a list about summary statistic for depression by each state
+# Summary of the percentage of the population in each country in each state with a health status of 14 or more days with poor mental health
 summary_by_state_MHLTH <- lapply(data_by_state, function(x) summary(x$Data_Value.MHLTH))
 head(summary_by_state_MHLTH,3)
 tail(summary_by_state_MHLTH,3)
 
-sd_by_stateM <- lapply(data_by_state, function(x) sd(x$Data_Value.MHLTH))
+# The list containing standard deviation per state: The percentage of the population in each country with a health status of 14 or more day with poor mental health
+sd_by_state_MHLTH <- lapply(data_by_state, function(x) sd(x$Data_Value.MHLTH))
 head(sd_by_state_MHLTH,3)
 tail(sd_by_state_MHLTH,3)
 
-# Convert mean_by_state to a data frame
+# The data frame containing mean value per state: Percentage of the population in each country with poor mental health for 14 or more days as a health status.
 mean_by_state_MHLTH <- lapply(data_by_state, function(x) mean(x$Data_Value.MHLTH))
 mean_df_MHLTH <- data.frame(State = names(mean_by_state_MHLTH), Mean_MHLTH = unlist(mean_by_state_MHLTH))
 
-# # Create a bar chart of the mean depression values by state
-# barplot(mean_df_MHLTH$Mean_MHLTH, names.arg = mean_df_MHLTH$State, xlab = "State", ylab = "Mean Mental Value", col = "yellow", main = "Mean mental Values by State")
-
-# Create a new maps object
+# Add fips column in mean_df_MHLTH
 mean_df_MHLTH["fips"] <- fips(mean_df_MHLTH$State)
 
+# Map of the United States plotting the mean percent incidence of the population with poor mental health by state.
 plot_usmap(data=mean_df_MHLTH, values="Mean_MHLTH", labels = TRUE) +
   scale_fill_continuous(low = "white", high = "green", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
