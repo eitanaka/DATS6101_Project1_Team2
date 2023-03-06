@@ -23,7 +23,6 @@ library(dplyr)
 library(usmap)
 library(ggplot2)
 library(gridExtra)
-rm(list=ls())
 ```
 
 ```{r setup, include=FALSE}
@@ -39,8 +38,7 @@ options(scientific=T, digits = 3)
 **(need edited)**
 
 ```{r init_data}
-# Importing a geographic health disparities data set
-
+# Importing a geographic health disparities data set from github repo
 urlfile = 'https://raw.githubusercontent.com/eitanaka/DATS6101_Project1_Team2/main/dataset/geographic_health_disparities.csv'
 
 geo_health_df <- read_csv(url(urlfile))
@@ -48,30 +46,30 @@ geo_health_df <- read_csv(url(urlfile))
 
 ## Summary Statistics(need edited)
 ```{r}
-# Create data frame by state
+# Create a list containing the data frames by each state
 data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
 ```
 
 ### Depression by state(need edited)
 ```{r EDA_basicstats_Depression}
-summary_by_stateD <- lapply(data_by_state, function(x) summary(x$Data_Value.DEPRESSION))
-head(summary_by_stateD,3)
-tail(summary_by_stateD,3)
+# Summary statistic about percentage of population affected with depression in each state
+summary_by_state_DEPRESSION <- lapply(data_by_state, function(x) summary(x$Data_Value.DEPRESSION))
+head(summary_by_state_DEPRESSION,3)
+tail(summary_by_state_DEPRESSION,3)
 
+# A list of standard deviation for percentage of population affected with Depression in each state
 sd_by_stateD<- lapply(data_by_state, function(x) sd(x$Data_Value.DEPRESSION))
 head(summary_by_stateD,3)
 tail(summary_by_stateD,3)
 
-# Convert mean_by_state to a data frame
+# A data frame containing mean values of the incidence rate of Depression for each country in each state
 mean_by_state_DEPRESSION <- lapply(data_by_state, function(x) mean(x$Data_Value.DEPRESSION))
 mean_df_DEPRESSION <-data.frame(State = names(mean_by_state_DEPRESSION), Mean_Depression=unlist(mean_by_state_DEPRESSION))
 
-# # Create a bar chart of the mean depression values by state
-# barplot(mean_df_DEPRESSION$Mean_Depression, names.arg = mean_df_DEPRESSION$State, xlab = "State", ylab = "Mean Depression Value", col = "red", main = "Mean Depression Values by State")
-
-# Create a new maps object
+# Add column "fips" into the mean_df_Depression data frame.
 mean_df_DEPRESSION["fips"] <- fips(mean_df_DEPRESSION$State)
 
+# A map of the U.S. showing average percent of people suffering from DEPRESSION for each country in each state
 plot_usmap(data=mean_df_DEPRESSION, values="Mean_Depression", labels = TRUE) +
   scale_fill_continuous(low = "white", high = "red", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
@@ -85,13 +83,14 @@ plot_usmap(data=mean_df_DEPRESSION, values="Mean_Depression", labels = TRUE) +
 
 ### Mental health by state(need edited)
 ```{r echo=T, eval=T, include=T, results='markup'}
-summary_by_stateM <- lapply(data_by_state, function(x) summary(x$Data_Value.MHLTH))
-head(summary_by_stateM,3)
-tail(summary_by_stateM,3)
+# Create a list about summary statistic for depression by each state
+summary_by_state_MHLTH <- lapply(data_by_state, function(x) summary(x$Data_Value.MHLTH))
+head(summary_by_state_MHLTH,3)
+tail(summary_by_state_MHLTH,3)
 
 sd_by_stateM <- lapply(data_by_state, function(x) sd(x$Data_Value.MHLTH))
-head(sd_by_stateM,3)
-tail(sd_by_stateM,3)
+head(sd_by_state_MHLTH,3)
+tail(sd_by_state_MHLTH,3)
 
 # Convert mean_by_state to a data frame
 mean_by_state_MHLTH <- lapply(data_by_state, function(x) mean(x$Data_Value.MHLTH))
