@@ -204,26 +204,19 @@ This code will create a table showing the mean, median, and standard deviation f
 cor_matrix <- cor(mean_df[ , c("Depression", "MHLTH", "Sleep", "LPA")])
 
 # create national correlation heat map
-cor_heat_map <- corrplot(cor_matrix, method = "color")
-cor_heat_map
+corrplot(cor_matrix, method = "color")
 
 # create mixed national correlation heat map
-mixed_cor_heat_map <- corrplot.mixed(cor_matrix)
-mixed_cor_heat_map
+corrplot.mixed(cor_matrix)
 
-# # create correlation list of matrices for states
-# cor_by_state <- lapply(data_by_state, function(state_data) {
-#   cor(state_data[c("Data_Value.DEPRESSION", "Data_Value.MHLTH", "Data_Value.SLEEP")])
-# })
-# 
-# # create state correlation matrix
-# dep_mhlth.cor <- sapply(cor_by_state, function(state) state[1,2])
-# dep_slp.cor <- sapply(cor_by_state, function(state) state[1,3])
-# mhlth.slp.cor <- sapply(cor_by_state, function(state) state[2,3])
-# 
-# state_cor_df <- data.frame(state = mean_df$State, dep_mhlth.cor, dep_slp.cor, mhlth.slp.cor)
-# state_cor_df["fips"] <- fips(state_cor_df$state)
-# state_cor_df <- select(state_cor_df, "state", "fips", "dep_mhlth.cor", "dep_slp.cor", "mhlth.slp.cor")
+# Create a data frame containing state, FIPs code, cor_MHLTH_sleep, and cor_MHLTH_LPA
+cor_by_state_matrix <- lapply(data_by_state, function(state) cor(state[c("Data_Value.DEPRESSION", "Data_Value.MHLTH", "Data_Value.SLEEP", "Data_Value.LPA")]))
+cor_by_state_df <- data.frame(
+    state = names(cor_by_state_matrix),
+    MHLTH_SLEEP = sapply(cor_by_state_matrix, function(state) state[2,3]),
+    MHLTH_LPA = sapply(cor_by_state_matrix, function(state) state[2,4])
+)
+cor_by_state_df["fips"] <- fips(cor_by_state_df$state)
 ```
 
 ```{r}
@@ -271,7 +264,7 @@ Linear_reg <- lm(MHLTH ~ Sleep + LPA, data = mean_df)
 summary(Linear_reg)
 
 ```
- we failed to reject depression and there is a significant test for mental health . that means mental health is effected by sleep and LPA. 
+We failed to reject depression and there is a significant test for mental health . that means mental health is effected by sleep and LPA. 
 
 ### Scatter plot for 2 health risk behavior and a health outcomes ,and Health Status
 ```{r}
