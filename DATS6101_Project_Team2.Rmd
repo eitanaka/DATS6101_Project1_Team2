@@ -25,6 +25,7 @@ library(ggplot2)
 library(gridExtra)
 library(tidyr)
 library(ezids)
+library(stargazer)
 ```
 
 ```{r setup, include=FALSE}
@@ -226,9 +227,9 @@ ggplot(mean_df_long, aes(x = "", y = Value, fill = Variable)) +
   geom_boxplot() +
   geom_jitter(aes(color = Variable), width = 0.2, size = 2) +
   facet_wrap(~Variable, ncol = 4, scales = "fixed") +
-  scale_fill_manual(values = c("pink","lightgreen", rgb(200, 162, 200, maxColorValue = 255), "cyan")) +
-  scale_color_manual(values = c("darkred","darkgreen", "darkorchid", "darkblue")) +
-  labs(title = "Box plots of population proportions for each Measure", x="Health conditions", y = "Population proportion") +
+  scale_fill_manual(values = c("pink", "cyan", "lightgreen", rgb(200, 162, 200, maxColorValue = 255))) +
+  scale_color_manual(values = c("darkred", "darkblue", "darkgreen", "darkorchid")) +
+  labs(title = "Health Condition Distributions", x="Health Conditions", y = "% of State Pop. with Condition") +
   geom_text(data = max_min_df, aes(x = 1.25, y = Value, label = State), size = 4, fontface = "bold", hjust = -0.2, color = "black") # add state labels for max and min values
 ```
 
@@ -244,7 +245,10 @@ cor_matrix <- cor(mean_df[ , c("Depression", "MHLTH", "Sleep", "LPA")])
 corrplot(cor_matrix, method = "color")
 
 # create mixed national correlation heat map
-corrplot.mixed(cor_matrix)
+mixed_cor_heat_map <- corrplot.mixed(cor_matrix, 
+                                     main = "Correlation Between Health Conditions (National)",
+                                     mar = c(0,0,2,0))
+mixed_cor_heat_map
 
 # Create a data frame containing state, FIPs code, cor_MHLTH_sleep, and cor_MHLTH_LPA
 cor_by_state_matrix <- lapply(data_by_state, function(state) cor(state[c("Data_Value.DEPRESSION", "Data_Value.MHLTH", "Data_Value.SLEEP", "Data_Value.LPA")]))
@@ -284,17 +288,41 @@ plot_usmap(data=cor_by_state_df, values="MHLTH_LPA", labels = TRUE) +
 
 ### Linear Regression Test
 ```{r}
-#Linear regression
+# multiple linear regression
 # data frame is named 'mean_df'
-Linear_reg <- lm(Depression ~ Sleep + LPA, data = mean_df)
-summary(Linear_reg)
 
+# mhlth.sleep.lg <- lm(MHLTH ~ Sleep, data = mean_df)
+# summary(mhlth.sleep.lg)
+# 
+# mhlth.lpa.lg <- lm(MHLTH ~ LPA, data = mean_df)
+# summary(mhlth.lpa.lg)
 
-Linear_reg <- lm(MHLTH ~ Sleep + LPA, data = mean_df)
-summary(Linear_reg)
+depression.mlg <- lm(Depression ~ Sleep + LPA, data = mean_df)
+
+mhlth.mlg <- lm(MHLTH ~ Sleep + LPA, data = mean_df)
+
+depression.mlg.table <- stargazer(depression.mlg,
+                                  type = "text",
+                                  title = "Multiple Linear Regression for Depression, Sleep, and LPA",
+                                  header = FALSE,
+                                  digits = 4,
+                                  star.cutoffs = c(0.05, 0.01, 0.001),
+                                  report = "vcstp*")
+
+mhlth.mlg <- lm(MHLTH ~ Sleep + LPA, data = mean_df)
+summary(mhlth.mlg)
+mhlth.mlg.table <- stargazer(mhlth.mlg,
+                                  type = "text",
+                                  title = "Multiple Linear Regression for Mental Health, Sleep, and LPA",
+                                  header = FALSE,
+                                  digits = 4,
+                                  star.cutoffs = c(0.05, 0.01, 0.001),
+                                  report = "vcstp*")
 
 ```
+
 We failed to reject depression and there is a significant test for mental health . that means mental health is effected by sleep and LPA. 
+
 
 ### Scatter plot for 2 health risk behavior and a health outcomes ,and Health Status
 ```{r}
