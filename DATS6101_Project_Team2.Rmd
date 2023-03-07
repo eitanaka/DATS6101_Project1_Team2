@@ -36,8 +36,6 @@ options(scientific=T, digits = 3)
 # options(scipen=9, digits = 3) 
 ```
 
-## Introduction (need edited)
-**(need edited)**
 ```{r init_data}
 # Importing a geographic health disparities data set from github repo
 urlfile = 'https://raw.githubusercontent.com/eitanaka/DATS6101_Project1_Team2/main/dataset/geographic_health_disparities.csv'
@@ -45,8 +43,14 @@ urlfile = 'https://raw.githubusercontent.com/eitanaka/DATS6101_Project1_Team2/ma
 geo_health_df <- read_csv(url(urlfile))
 ```
 
+## Introduction (need edited)
+### Research Question
+### Basic information about a dataset
+**(need edited)**
+
 ## Basic EDAs
-```{r}
+**Familiarize yourself with the data by looking at the data type, variable names, and number of observations. Understand what each variable represents and what type of analysis you may need to perform.**
+```{r include=T}
 # Look at the datatypes
 str(geo_health_df)
 
@@ -57,21 +61,28 @@ nrow(geo_health_df)
 # 
 ```
 
+### Check for missing values
+**Missing data can cause issues in the analysis. Check for missing values and decide how to handle them (either by imputing or dropping them).**
 ```{r}
 # check for the missing value
 sum(is.na(geo_health_df))
+```
 
+### Check for outliers
+**Outliers can skew the analysis and affect the model's performance. Identify and understand the presence of any outliers and determine whether to remove them or not.**
+
+### Check for data distribution
+**Understand the distribution of each variable in the dataset. Identify whether the data is normally distributed or skewed, and determine whether transformations are necessary.**
+```{r}
 # check for outliers
-# Identify and understand the presence of any outliers and determine whether to remove them or not.
-# Check for data distribution: Understand the distribution of each variable in the dataset. 
-# Identify whether the data is normally distributed or skewed, and determine whether transformations are necessary.
 outlier_Depression  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.DEPRESSION)
 outlier_MLHTH  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.MHLTH)
 outlier_SLEEP  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.SLEEP)
 outlier_LPA  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.LPA)
 ```
 
-## Descriptive Statistics: To understand the central tendency, variability, and spread of the data.
+## Descriptive Statistics 
+**To understand the central tendency, variability, and spread of the data.**
 ```{r}
 # Create a list containing the data frames by each state
 data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
