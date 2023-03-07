@@ -259,6 +259,33 @@ cor_by_state_df <- data.frame(
 )
 cor_by_state_df["fips"] <- fips(cor_by_state_df$state)
 ```
+### Scatter plot for 2 health risk behavior and a health outcomes ,and Health Status
+```{r}
+# create scatter plots
+# sleep scatter plot
+ggplot(mean_df, aes(x = Sleep)) +
+  geom_point(aes(y = Depression, color = "Depression")) +
+  geom_point(aes(y = MHLTH, color = "MHLTH")) +
+  scale_color_manual(name = "Health Outcomes", values = c("Depression" = "red", "MHLTH" = "green")) +
+  labs(x = "% Lacking Sleep", 
+       y = "% With Health Outcomes",
+       title = "Correlation Between Lack of Sleep and Health Outcomes") +
+  geom_smooth(aes(y = Depression, color='black'), method = "lm", se = TRUE) +
+  geom_smooth(aes(y = MHLTH, color='black'), method = "lm", se = TRUE)
+
+
+# lpa scatter plot
+ggplot(mean_df, aes(x = LPA)) +
+  geom_point(aes(y = Depression, color = "Depression")) +
+  geom_point(aes(y = MHLTH, color = "MHLTH")) +
+  scale_color_manual(name = "Health Outcomes", values = c("Depression" = "red", "MHLTH" = "green")) +
+  labs(x = "% Lacking Physical Activity", 
+       y = "% With Health Outcomes",
+       title = "Correlation Between Lack of Physical Activity and Health Outcomes") +
+  geom_smooth(aes(y = Depression, color='black'), method = "lm", se = TRUE) +
+  geom_smooth(aes(y = MHLTH, color='black'), method = "lm", se = TRUE)
+```
+
 
 ```{r}
 # The map of US about correlation between MHLTH and Sleep
@@ -322,30 +349,6 @@ mhlth.mlg.table <- stargazer(mhlth.mlg,
 ```
 
 We failed to reject depression and there is a significant test for mental health . that means mental health is effected by sleep and LPA. 
-
-
-### Scatter plot for 2 health risk behavior and a health outcomes ,and Health Status
-```{r}
-# create scatter plots
-# sleep scatter plot
-ggplot(mean_df, aes(x = Sleep)) +
-  geom_point(aes(y = Depression, color = "Depression")) +
-  geom_point(aes(y = MHLTH, color = "MHLTH")) +
-  scale_color_manual(name = "Health Outcomes", values = c("Depression" = "red", "MHLTH" = "green")) +
-  labs(x = "% Lacking Sleep", 
-       y = "% With Health Outcomes",
-       title = "Correlation Between Lack of Sleep and Health Outcomes")
-
-
-# lpa scatter plot
-ggplot(mean_df, aes(x = LPA)) +
-  geom_point(aes(y = Depression, color = "Depression")) +
-  geom_point(aes(y = MHLTH, color = "MHLTH")) +
-  scale_color_manual(name = "Health Outcomes", values = c("Depression" = "red", "MHLTH" = "green")) +
-  labs(x = "% Lacking Physical Activity", 
-       y = "% With Health Outcomes",
-       title = "Correlation Between Lack of Physical Activity and Health Outcomes")
-```
 
 ## Summarize insights: Summarize the insights obtained from the EDA process and identify any further actions that need to be taken before proceeding with the analysis.
 
