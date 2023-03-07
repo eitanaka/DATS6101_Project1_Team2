@@ -16,16 +16,21 @@ output:
 
 ```{r init, include=F}
 rm(list=ls())
-library(readr)
-library(reshape2)
-library(corrplot)
-library(dplyr)
-library(usmap)
-library(ggplot2)
-library(gridExtra)
-library(tidyr)
-library(ezids)
-library(stargazer)
+require(readr)
+require(reshape2)
+require(corrplot)
+require(dplyr)
+require(usmap)
+require(ggplot2)
+require(gridExtra)
+require(tidyr)
+require(ezids)
+require(stargazer)
+require(car)
+require(coefplot)
+require(MASS)
+require(scatterplot3d)
+require(GGally)
 ```
 
 ```{r setup, include=FALSE}
@@ -315,18 +320,14 @@ plot_usmap(data=cor_by_state_df, values="MHLTH_LPA", labels = TRUE) +
 
 ### Linear Regression Test
 ```{r}
-# multiple linear regression
-# data frame is named 'mean_df'
+# multiple linear regressions
 
-# mhlth.sleep.lg <- lm(MHLTH ~ Sleep, data = mean_df)
-# summary(mhlth.sleep.lg)
-# 
-# mhlth.lpa.lg <- lm(MHLTH ~ LPA, data = mean_df)
-# summary(mhlth.lpa.lg)
+depression.mlg <- lm(Depression ~ Sleep + LPA -1, data = mean_df)
 
-depression.mlg <- lm(Depression ~ Sleep + LPA, data = mean_df)
+mhlth.mlg <- lm(MHLTH ~ Sleep + LPA -1, data = mean_df)
 
-mhlth.mlg <- lm(MHLTH ~ Sleep + LPA, data = mean_df)
+
+# mlg tables
 
 depression.mlg.table <- stargazer(depression.mlg,
                                   type = "text",
@@ -336,8 +337,6 @@ depression.mlg.table <- stargazer(depression.mlg,
                                   star.cutoffs = c(0.05, 0.01, 0.001),
                                   report = "vcstp*")
 
-mhlth.mlg <- lm(MHLTH ~ Sleep + LPA, data = mean_df)
-summary(mhlth.mlg)
 mhlth.mlg.table <- stargazer(mhlth.mlg,
                                   type = "text",
                                   title = "Multiple Linear Regression for Mental Health, Sleep, and LPA",
@@ -346,6 +345,38 @@ mhlth.mlg.table <- stargazer(mhlth.mlg,
                                   star.cutoffs = c(0.05, 0.01, 0.001),
                                   report = "vcstp*")
 
+
+# mlg partial regression plots
+# mhlth.lpa.mlg.partial.reg.plot <- qqp(mhlth.mlg, "LPA") 
+
+# mhlth.sleep.mlg.partial.reg.plot <- qqp(mhlth.mlg, "Sleep") 
+
+
+# mlg coefficient plots
+# dep.mlg.coefplot <- coefplot(depression.mlg, exclude = TRUE, title = "Depression")
+# dep.mlg.coefplot
+# 
+# mhlth.mlg.coefplot <-coefplot(mhlth.mlg, exclude = TRUE, title = "MHlTH")
+# mhlth.mlg.coefplot
+
+
+# mlg 3D scatter plots
+# dep.mlg.3d.plot <- scatterplot3d(mean_df$Depression, mean_df$Sleep, mean_df$LPA, color = "red", pch = 19, main = "Depression 3D Scatter Plot")
+# dep.mlg.3d.plot
+# 
+# mhlth.mlg.3d.plot <- scatterplot3d(mean_df$MHLTH, mean_df$Sleep, mean_df$LPA, color = "red", pch = 19, main = "MHLTH 3D Scatter Plot")
+# mhlth.mlg.3d.plot
+
+
+# mlg residual plots
+# dep.residual.plot <- plot(depression.mlg, which = 1)
+# dep.residual.plot
+# 
+# mhlth.residual.plot <- plot(mhlth.mlg, which = 1)
+# mhlth.residual.plot
+
+
+# mlg parrallel coordinate plots
 ```
 
 We failed to reject depression and there is a significant test for mental health . that means mental health is effected by sleep and LPA. 
