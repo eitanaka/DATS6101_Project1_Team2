@@ -24,6 +24,7 @@ library(usmap)
 library(ggplot2)
 library(gridExtra)
 library(tidyr)
+library(ezids)
 ```
 
 ```{r setup, include=FALSE}
@@ -44,7 +45,33 @@ urlfile = 'https://raw.githubusercontent.com/eitanaka/DATS6101_Project1_Team2/ma
 geo_health_df <- read_csv(url(urlfile))
 ```
 
-## Summary Statistics(need edited)
+## Basic EDAs
+```{r}
+# Look at the datatypes
+str(geo_health_df)
+
+# A number of observation
+nrow(geo_health_df)
+
+# Understand what each variable represents and what type of analysis you may need to perform.
+# 
+```
+
+```{r}
+# check for the missing value
+sum(is.na(geo_health_df))
+
+# check for outliers
+# Identify and understand the presence of any outliers and determine whether to remove them or not.
+# Check for data distribution: Understand the distribution of each variable in the dataset. 
+# Identify whether the data is normally distributed or skewed, and determine whether transformations are necessary.
+outlier_Depression  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.DEPRESSION)
+outlier_MLHTH  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.MHLTH)
+outlier_SLEEP  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.SLEEP)
+outlier_LPA  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.LPA)
+```
+
+## Descriptive Statistics: To understand the central tendency, variability, and spread of the data.
 ```{r}
 # Create a list containing the data frames by each state
 data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
@@ -196,8 +223,7 @@ ggplot(mean_df_long, aes(x = "", y = Value, fill = Variable)) +
 
 This code will create a table showing the mean, median, and standard deviation for each variable (depression, sleep, and mental health) across all states, grouped by state names or FIPS codes. You can compare the results to see how each variable varies across different states.
 
-
-### Corelation between each disease by state
+## Correlations: Explore the relationships between variables and identify any correlations that may exist. This can help to identify potential predictors for modeling.
 ```{r}
 # Compute the correlation matrix
 # create national correlation matrix
@@ -243,6 +269,8 @@ plot_usmap(data=cor_by_state_df, values="MHLTH_LPA", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
+## Hypothesis testing: If applicable, conduct statistical hypothesis tests to confirm or reject hypotheses about the data.
+
 ### Linear Regression Test
 ```{r}
 #Linear regression
@@ -280,7 +308,6 @@ ggplot(mean_df, aes(x = LPA)) +
        title = "Correlation Between Lack of Physical Activity and Health Outcomes")
 ```
 
-
-
+## Summarize insights: Summarize the insights obtained from the EDA process and identify any further actions that need to be taken before proceeding with the analysis.
 
 
