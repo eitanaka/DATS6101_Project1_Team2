@@ -220,36 +220,27 @@ cor_by_state_df["fips"] <- fips(cor_by_state_df$state)
 ```
 
 ```{r}
-# us correlation maps
-# plot_usmap(data=state_cor_df, values="dep_mhlth.cor", labels = TRUE) +
-#   scale_fill_continuous(low = "white", high = "orange", guide = FALSE) +
-#   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
-#   ggtitle("Correlation Betweeen Depression and Mental Health") +
-#   guides(fill = guide_colorbar(title = "Correlation", 
-#                                 title.position = "top", 
-#                                 title.hjust = 0.5, 
-#                                 label.position = "left",
-#                                 label.hjust = 0.5))
-# 
-# plot_usmap(data=state_cor_df, values="dep_slp.cor", labels = TRUE) +
-#   scale_fill_continuous(low = "white", high = "purple", guide = FALSE) +
-#   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
-#   ggtitle("Correlation Betweeen Depression and Sleep") +
-#   guides(fill = guide_colorbar(title = "Correlation", 
-#                                 title.position = "top", 
-#                                 title.hjust = 0.5, 
-#                                 label.position = "left",
-#                                 label.hjust = 0.5))
-# 
-# plot_usmap(data=state_cor_df, values="mhlth.slp.cor", labels = TRUE) +
-#   scale_fill_continuous(low = "white", high = "green", guide = FALSE) +
-#   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
-#   ggtitle("Correlation Betweeen Mental Health and Sleep") +
-#   guides(fill = guide_colorbar(title = "Correlation", 
-#                                 title.position = "top", 
-#                                 title.hjust = 0.5, 
-#                                 label.position = "left",
-#                                 label.hjust = 0.5))
+# The map of US about correlation between MHLTH and Sleep
+plot_usmap(data=cor_by_state_df, values="MHLTH_SLEEP", labels = TRUE) +
+  scale_fill_continuous(low = "white", high = "blue", guide = FALSE) +
+  scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
+  ggtitle("Correlation Betweeen Mental Health and SLEEP") +
+  guides(fill = guide_colorbar(title = "Correlation",
+                                title.position = "top",
+                                title.hjust = 0.5,
+                                label.position = "left",
+                                label.hjust = 0.5))
+
+# The map of US about correlation between MHLTH and LPA
+plot_usmap(data=cor_by_state_df, values="MHLTH_LPA", labels = TRUE) +
+  scale_fill_continuous(low = "white", high = "blue", guide = FALSE) +
+  scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
+  ggtitle("Correlation Betweeen Mental Health and Sleep") +
+  guides(fill = guide_colorbar(title = "Correlation",
+                                title.position = "top",
+                                title.hjust = 0.5,
+                                label.position = "left",
+                                label.hjust = 0.5))
 ```
 
 ### Linear Regression Test
