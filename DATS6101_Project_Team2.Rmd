@@ -346,29 +346,20 @@ mhlth.mlg.table <- stargazer(mhlth.mlg,
                                   report = "vcstp*")
 
 
-# mlg partial regression plots
-# mhlth.lpa.mlg.partial.reg.plot <- qqp(mhlth.mlg, "LPA") 
-
-# mhlth.sleep.mlg.partial.reg.plot <- qqp(mhlth.mlg, "Sleep") 
-
-
-# mlg coefficient plots
+# # mlg partial regression plots
+# mhlth.lpa.mlg.partial.reg.plot <- qqp(mhlth.mlg, "LPA")
+# 
+# mhlth.sleep.mlg.partial.reg.plot <- qqp(mhlth.mlg, "Sleep")
+# 
+# 
+# # mlg coefficient plots
 # dep.mlg.coefplot <- coefplot(depression.mlg, exclude = TRUE, title = "Depression")
 # dep.mlg.coefplot
 # 
 # mhlth.mlg.coefplot <-coefplot(mhlth.mlg, exclude = TRUE, title = "MHlTH")
 # mhlth.mlg.coefplot
-
-
-# mlg 3D scatter plots
-# dep.mlg.3d.plot <- scatterplot3d(mean_df$Depression, mean_df$Sleep, mean_df$LPA, color = "red", pch = 19, main = "Depression 3D Scatter Plot")
-# dep.mlg.3d.plot
 # 
-# mhlth.mlg.3d.plot <- scatterplot3d(mean_df$MHLTH, mean_df$Sleep, mean_df$LPA, color = "red", pch = 19, main = "MHLTH 3D Scatter Plot")
-# mhlth.mlg.3d.plot
-
-
-# mlg residual plots
+# # mlg residual plots
 # dep.residual.plot <- plot(depression.mlg, which = 1)
 # dep.residual.plot
 # 
@@ -376,7 +367,6 @@ mhlth.mlg.table <- stargazer(mhlth.mlg,
 # mhlth.residual.plot
 
 
-# mlg parrallel coordinate plots
 ```
 
 We failed to reject depression and there is a significant test for mental health . that means mental health is effected by sleep and LPA. 
