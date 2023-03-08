@@ -45,17 +45,16 @@ options(scientific=T, digits = 3)
 ```{r init_data}
 # Importing a geographic health disparities data set from github repo
 urlfile = 'https://raw.githubusercontent.com/eitanaka/DATS6101_Project1_Team2/main/dataset/geographic_health_disparities.csv'
-
 geo_health_df <- read_csv(url(urlfile))
 ```
 
-## Introduction (need edited)
-### Research Question
-### Basic information about a dataset
-**(need edited)**
+## Introduction:
+## the dataset county and state-level geographic health disparities in the US for the year 2020.
+### Research Question: How lack of sleep and less physical activities is impacting human mental health and how it leads to depression issues we are assuming based on modern lifestyle.
+### Basic information about a dataset: It contains model-based tract-level estimates of the prevalence of 29 health outcomes, preventive services usages, chronic disease-related health risk behaviors, and health statuses as part of the 2020 U.S Census. Covers the entire United States—50 states and the District of Columbia—at county, place, census tract, and ZIP Code Tabulation Area levels.
 
 ## Basic EDAs
-**Familiarize yourself with the data by looking at the data type, variable names, and number of observations. Understand what each variable represents and what type of analysis you may need to perform.**
+**Look at the data type, variable names, and number of observations. Understand what each variable represents and what type of analysis you may need to perform.**
 ```{r include=T}
 # Look at the datatypes
 str(geo_health_df)
@@ -75,7 +74,7 @@ sum(is.na(geo_health_df))
 ```
 
 ### Check for outliers
-**Outliers can skew the analysis and affect the model's performance. Identify and understand the presence of any outliers and determine whether to remove them or not.**
+**Outliers can skew the analysis and affect the model's performance. Identify and understand the presence of any outliers and determine whether to remove it or not.**
 
 ### Check for data distribution
 **Understand the distribution of each variable in the dataset. Identify whether the data is normally distributed or skewed, and determine whether transformations are necessary.**
@@ -264,6 +263,7 @@ cor_by_state_df <- data.frame(
 )
 cor_by_state_df["fips"] <- fips(cor_by_state_df$state)
 ```
+
 ### Scatter plot for 2 health risk behavior and a health outcomes ,and Health Status
 ```{r}
 # create scatter plots
@@ -291,9 +291,9 @@ ggplot(mean_df, aes(x = LPA)) +
   geom_smooth(aes(y = MHLTH, color='black'), method = "lm", se = TRUE)
 ```
 
-
+## Correlation between MHLTH and sleep, MHLTH and LPA using us map.
 ```{r}
-# The map of US about correlation between MHLTH and Sleep
+# The map of US about correlation between MHLTH and Sleep.
 plot_usmap(data=cor_by_state_df, values="MHLTH_SLEEP", labels = TRUE) +
   scale_fill_continuous(low = "white", high = "blue", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
@@ -323,7 +323,6 @@ plot_usmap(data=cor_by_state_df, values="MHLTH_LPA", labels = TRUE) +
 # multiple linear regressions
 
 depression.mlg <- lm(Depression ~ Sleep + LPA -1, data = mean_df)
-
 mhlth.mlg <- lm(MHLTH ~ Sleep + LPA -1, data = mean_df)
 
 
@@ -350,7 +349,6 @@ mhlth.mlg.table <- stargazer(mhlth.mlg,
 # mhlth.lpa.mlg.partial.reg.plot <- qqp(mhlth.mlg, "LPA")
 # 
 # mhlth.sleep.mlg.partial.reg.plot <- qqp(mhlth.mlg, "Sleep")
-# 
 # 
 # # mlg coefficient plots
 # dep.mlg.coefplot <- coefplot(depression.mlg, exclude = TRUE, title = "Depression")
