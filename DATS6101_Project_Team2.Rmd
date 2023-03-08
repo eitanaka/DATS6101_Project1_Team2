@@ -77,7 +77,8 @@ sum(is.na(geo_health_df))
 **Outliers can skew the analysis and affect the model's performance. Identify and understand the presence of any outliers and determine whether to remove it or not.**
 
 ### Check for data distribution
-**Understand the distribution of each variable in the dataset. Identify whether the data is normally distributed or skewed, and determine whether transformations are necessary.**
+**The distribution of each variable in the dataset and identify whether the data is normally distributed or skewed using descriptive statistics and visualizations.**
+### We can check if there are any outliers present in the dataset using the outlierKD2 function.
 ```{r}
 # check for outliers
 outlier_Depression  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.DEPRESSION)
@@ -94,6 +95,7 @@ data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
 ```
 
 ### Depression by state(The variable about Health outcome)
+**summary statistics about the percentage of the population affected by depression in each state using the summary function.Using the sd function, we can also get each state's standard deviation. **
 ```{r EDA_basicstats_Depression}
 # Summary statistic about percentage of population affected with depression in each state
 summary_by_state_DEPRESSION <- lapply(data_by_state, function(x) summary(x$Data_Value.DEPRESSION))
