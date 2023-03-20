@@ -54,21 +54,21 @@ geo_health_df <- read_csv(url(urlfile))
 ## 1. Introduction:
 **Add paragraphs here**
 
-### SMART Question
+### a. SMART Question
 **Add paragraphs here**
 **Research Question: How lack of sleep and less physical activities is impacting human mental health and how it leads to depression issues we are assuming based on modern lifestyle.**
 
-### About Dataset
+### b. About Dataset
 **Add paragraphs here**
 **Basic information about a dataset: It contains model-based tract-level estimates of the prevalence of 29 health outcomes, preventive services usages, chronic disease-related health risk behaviors, and health statuses as part of the 2020 U.S Census. Covers the entire United States—50 states and the District of Columbia—at county, place, census tract, and ZIP Code Tabulation Area levels.**
-
-### Data preparation
-**Add paragraphs here**
 
 ## 2. EDA
 **Add paragraphs here**
 
-### Basic EDAs
+### a. Data preparation
+**Add paragraphs here**
+
+### b. Basic EDAs
 **Look at the data type, variable names, and number of observations. Understand what each variable represents and what type of analysis you may need to perform.**
 ```{r echo=T, include=T, eval=T, results='markup'}
 # Look at the datatypes
@@ -80,19 +80,20 @@ nrow(geo_health_df)
 # Understand what each variable represents and what type of analysis you may need to perform.
 ```
 
-### Check for missing values
+#### Check for missing values
 **Missing data can cause issues in the analysis. Check for missing values and decide how to handle them (either by imputing or dropping them).**
 ```{r}
 # check for the missing value
 sum(is.na(geo_health_df))
 ```
 
-### Check for outliers
+#### Check for outliers
 **Outliers can skew the analysis and affect the model's performance. Identify and understand the presence of any outliers and determine whether to remove it or not.**
 
-### Check for data distribution
+#### Check for data distribution
 **The distribution of each variable in the dataset and identify whether the data is normally distributed or skewed using descriptive statistics and visualizations.**
-### We can check if there are any outliers present in the dataset using the outlierKD2 function.
+
+**We can check if there are any outliers present in the dataset using the outlierKD2 function.**
 ```{r}
 # check for outliers
 outlier_Depression  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.DEPRESSION)
@@ -101,14 +102,14 @@ outlier_SLEEP  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.SLEEP)
 outlier_LPA  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.LPA)
 ```
 
-### Descriptive Statistics 
+### c. Descriptive Statistics 
 **To understand the central tendency, variability, and spread of the data.**
 ```{r}
 # Create a list containing the data frames by each state
 data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
 ```
 
-### National level summary
+#### National level summary
 ```{r}
 summary_nation_DEPRESSION <- summary(geo_health_df$Data_Value.DEPRESSION)
 summary_nation_MHLTH <- summary(geo_health_df$Data_Value.MHLTH)
@@ -120,7 +121,7 @@ summary_nation_SLEEP
 summary_nation_LPA
 ```
 
-### Depression by state(The variable about Health outcome)
+#### Depression by state(The variable about Health outcome)
 **summary statistics about the percentage of the population affected by depression in each state using the summary function.Using the sd function, we can also get each state's standard deviation. **
 ```{r EDA_basicstats_Depression}
 # Summary statistic about percentage of population affected with depression in each state
@@ -150,7 +151,7 @@ plot_usmap(data=mean_df_DEPRESSION, values="Mean_Depression", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-### Mental health by state(The variable about Health Status)
+#### Mental health by state(The variable about Health Status)
 ```{r echo=T, eval=T, include=T, results='markup'}
 # Summary of the percentage of the population in each country in each state with a health status of 14 or more days with poor mental health
 summary_by_state_MHLTH <- lapply(data_by_state, function(x) summary(x$Data_Value.MHLTH))
@@ -179,7 +180,7 @@ plot_usmap(data=mean_df_MHLTH, values="Mean_MHLTH", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-### Sleep by state(The variable about Health Risk Behabior)
+#### Sleep by state(The variable about Health Risk Behabior)
 ```{r echo=T, eval=T, include=T, results='markup'}
 # A list of summary statistic per state: Each data is a percentage of sleep disturbance in each country
 summary_by_state_SLEEP <- lapply(data_by_state, function(x) summary(x$Data_Value.SLEEP))
@@ -208,7 +209,7 @@ plot_usmap(data=mean_df_SLEEP, values="Mean_Sleep", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-### LPA by state (A variable about Health Risk Behavior)
+#### LPA by state (A variable about Health Risk Behavior)
 ```{r}
 # A list of summary statistic per state: Data are percent of population of people without leisure time in each country
 summary_by_state_LPA <- lapply(data_by_state, function(x) summary(x$Data_Value.LPA))
@@ -245,7 +246,7 @@ colnames(mean_df)[3:6] <- c("Depression", "MHLTH", "Sleep", "LPA")
 head(mean_df)
 ```
 
-### Comparing the mean values of all three variables using boxplot. 
+#### Comparing the mean values of all three variables using boxplot. 
 ```{r}
 # create a long format of the data
 mean_df_long <- gather(mean_df, key = "Variable", value = "Value", -State, -fips)
@@ -267,7 +268,8 @@ ggplot(mean_df_long, aes(x = "", y = Value, fill = Variable)) +
 
 This code will create a table showing the mean, median, and standard deviation for each variable (depression, sleep, and mental health) across all states, grouped by state names or FIPS codes. You can compare the results to see how each variable varies across different states.
 
-### Correlations: Explore the relationships between variables and identify any correlations that may exist. This can help to identify potential predictors for modeling.
+### d. Correlations
+**Explore the relationships between variables and identify any correlations that may exist. This can help to identify potential predictors for modeling.**
 ```{r}
 # Compute the correlation matrix
 # create national correlation matrix
@@ -292,7 +294,7 @@ cor_by_state_df <- data.frame(
 cor_by_state_df["fips"] <- fips(cor_by_state_df$state)
 ```
 
-### Scatter plot for 2 health risk behavior and a health outcomes ,and Health Status
+#### Scatter plot for 2 health risk behavior and a health outcomes ,and Health Status
 ```{r}
 # create scatter plots
 # sleep scatter plot
@@ -319,7 +321,7 @@ ggplot(mean_df, aes(x = LPA)) +
   geom_smooth(aes(y = MHLTH, color='black'), method = "lm", se = TRUE)
 ```
 
-### Correlation between MHLTH and sleep, MHLTH and LPA using us map.
+#### Correlation between MHLTH and sleep, MHLTH and LPA using us map.
 ```{r}
 # The map of US about correlation between MHLTH and Sleep.
 plot_usmap(data=cor_by_state_df, values="MHLTH_SLEEP", labels = TRUE) +
@@ -344,9 +346,10 @@ plot_usmap(data=cor_by_state_df, values="MHLTH_LPA", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-### Hypothesis testing: If applicable, conduct statistical hypothesis tests to confirm or reject hypotheses about the data.
+### e. Hypothesis testing
+**If applicable, conduct statistical hypothesis tests to confirm or reject hypotheses about the data.**
 
-### Linear Regression Test
+#### Linear Regression Test
 ```{r}
 # multiple linear regressions
 
