@@ -72,7 +72,6 @@ geo_health_df <- read_csv(url(urlfile))
 **In the Basic EDA section, we examine the dataset's structure and composition, focusing on data types, variable names, and the number of observations. Next, we address missing values and identify outliers, ensuring our data is reliable and robust for further analysis. This fundamental step lays the groundwork for a more in-depth exploration of the relationships between health-related variables in subsequent phases of the EDA process.**
 
 #### Data Structure and composition
-**Look at the data type, variable names, and number of observations. Understand what each variable represents and what type of analysis you may need to perform.**
 ```{r echo=T, include=T, eval=T, results='markup', collapse=T}
 # Look at the datatypes
 str(geo_health_df)
@@ -80,6 +79,9 @@ str(geo_health_df)
 # A number of observation
 nrow(geo_health_df)
 ```
+**The dataset comprises 72,337 observations and 12 variables, including numeric and character data types. The variables include information on the year, state abbreviation, state description, county name, county FIPS code, location name, and total population. Additionally, the dataset contains values for depression, leisure-time physical inactivity (LPA), sleep, poor general health (PHLTH), and poor mental health (MHLTH). The data represents various health-related indicators for different locations within the United States, which can be further analyzed to identify trends and relationships among these variables.**
+**(Add image to easy to interpret what variables in it)**
+
 
 #### Check for missing values
 **Missing data can cause issues in the analysis. Check for missing values and decide how to handle them (either by imputing or dropping them).**
