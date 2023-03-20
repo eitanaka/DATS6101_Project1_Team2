@@ -1,5 +1,5 @@
 ---
-title: "Title"
+title: "Life Style and Mental Health"
 author: "Ishani Makwana, Henry Hirsch and Ei Tanaka"
 date: "`r Sys.Date()`"
 output:
@@ -48,14 +48,29 @@ urlfile = 'https://raw.githubusercontent.com/eitanaka/DATS6101_Project1_Team2/ma
 geo_health_df <- read_csv(url(urlfile))
 ```
 
-## Introduction:
-## the dataset county and state-level geographic health disparities in the US for the year 2020.
-### Research Question: How lack of sleep and less physical activities is impacting human mental health and how it leads to depression issues we are assuming based on modern lifestyle.
-### Basic information about a dataset: It contains model-based tract-level estimates of the prevalence of 29 health outcomes, preventive services usages, chronic disease-related health risk behaviors, and health statuses as part of the 2020 U.S Census. Covers the entire United States—50 states and the District of Columbia—at county, place, census tract, and ZIP Code Tabulation Area levels.
+## Abstruct
+**Add paragraphs here**
 
-## Basic EDAs
+## 1. Introduction:
+**Add paragraphs here**
+
+### SMART Question
+**Add paragraphs here**
+**Research Question: How lack of sleep and less physical activities is impacting human mental health and how it leads to depression issues we are assuming based on modern lifestyle.**
+
+### About Dataset
+**Add paragraphs here**
+**Basic information about a dataset: It contains model-based tract-level estimates of the prevalence of 29 health outcomes, preventive services usages, chronic disease-related health risk behaviors, and health statuses as part of the 2020 U.S Census. Covers the entire United States—50 states and the District of Columbia—at county, place, census tract, and ZIP Code Tabulation Area levels.**
+
+### Data preparation
+**Add paragraphs here**
+
+## 2. EDA
+**Add paragraphs here**
+
+### Basic EDAs
 **Look at the data type, variable names, and number of observations. Understand what each variable represents and what type of analysis you may need to perform.**
-```{r include=T}
+```{r echo=T, include=T, eval=T, results='markup'}
 # Look at the datatypes
 str(geo_health_df)
 
@@ -63,7 +78,6 @@ str(geo_health_df)
 nrow(geo_health_df)
 
 # Understand what each variable represents and what type of analysis you may need to perform.
-# 
 ```
 
 ### Check for missing values
@@ -87,11 +101,23 @@ outlier_SLEEP  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.SLEEP)
 outlier_LPA  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.LPA)
 ```
 
-## Descriptive Statistics 
+### Descriptive Statistics 
 **To understand the central tendency, variability, and spread of the data.**
 ```{r}
 # Create a list containing the data frames by each state
 data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
+```
+
+### National level summary
+```{r}
+summary_nation_DEPRESSION <- summary(geo_health_df$Data_Value.DEPRESSION)
+summary_nation_MHLTH <- summary(geo_health_df$Data_Value.MHLTH)
+summary_nation_SLEEP <- summary(geo_health_df$Data_Value.SLEEP)
+summary_nation_LPA <- summary(geo_health_df$Data_Value.LPA)
+summary_nation_DEPRESSION
+summary_nation_MHLTH
+summary_nation_SLEEP
+summary_nation_LPA
 ```
 
 ### Depression by state(The variable about Health outcome)
@@ -241,7 +267,7 @@ ggplot(mean_df_long, aes(x = "", y = Value, fill = Variable)) +
 
 This code will create a table showing the mean, median, and standard deviation for each variable (depression, sleep, and mental health) across all states, grouped by state names or FIPS codes. You can compare the results to see how each variable varies across different states.
 
-## Correlations: Explore the relationships between variables and identify any correlations that may exist. This can help to identify potential predictors for modeling.
+### Correlations: Explore the relationships between variables and identify any correlations that may exist. This can help to identify potential predictors for modeling.
 ```{r}
 # Compute the correlation matrix
 # create national correlation matrix
@@ -293,7 +319,7 @@ ggplot(mean_df, aes(x = LPA)) +
   geom_smooth(aes(y = MHLTH, color='black'), method = "lm", se = TRUE)
 ```
 
-## Correlation between MHLTH and sleep, MHLTH and LPA using us map.
+### Correlation between MHLTH and sleep, MHLTH and LPA using us map.
 ```{r}
 # The map of US about correlation between MHLTH and Sleep.
 plot_usmap(data=cor_by_state_df, values="MHLTH_SLEEP", labels = TRUE) +
@@ -318,7 +344,7 @@ plot_usmap(data=cor_by_state_df, values="MHLTH_LPA", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-## Hypothesis testing: If applicable, conduct statistical hypothesis tests to confirm or reject hypotheses about the data.
+### Hypothesis testing: If applicable, conduct statistical hypothesis tests to confirm or reject hypotheses about the data.
 
 ### Linear Regression Test
 ```{r}
@@ -371,6 +397,15 @@ mhlth.mlg.table <- stargazer(mhlth.mlg,
 
 We failed to reject depression and there is a significant test for mental health . that means mental health is effected by sleep and LPA. 
 
-## Summarize insights: Summarize the insights obtained from the EDA process and identify any further actions that need to be taken before proceeding with the analysis.
+## 3. Result
+**Add paragraphs here**
 
+## 4. Disucussion
+**Add paragraphs here**
+
+## 5. Conclusion
+**Add paragraphs here**
+
+## 6. References
+**Add references here**
 
