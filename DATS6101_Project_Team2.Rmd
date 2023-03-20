@@ -66,18 +66,19 @@ geo_health_df <- read_csv(url(urlfile))
 **Add paragraphs here**
 
 ## 2. EDA
-**This Exploratory Data Analysis (EDA) section aims to examine and understand the relationships between various health-related variables, such as depression, mental health, sleep, and lack of physical activity. We begin by performing basic EDA, which involves examining the data types, variable names, and the number of observations. We then check for missing values, outliers, and data distribution, addressing any issues that may impact the analysis. Next, we conduct descriptive statistics to understand the data's central tendency, variability, and spread. A series of visualizations and summary statistics for each variable at the national and state levels follow this. We also investigate correlations between variables to identify potential predictors for modeling. Overall, this comprehensive EDA process helps us better understand the data set, uncover patterns, and detect potential anomalies, laying the groundwork for building accurate and reliable predictive models.**
+**This Exploratory Data Analysis (EDA) section aims to examine and understand the relationships between various health-related variables, such as depression, mental health, sleep, and lack of physical activity. We begin by performing basic EDA, which involves examining the data types, variable names, and the number of observations. We then check for missing values, outliers, and data distribution, addressing any issues that may impact the analysis. Next, we conduct descriptive statistics to understand the data's central tendency, variability, and spread. A series of visualizations and summary statistics for each variable at the national and state levels follow this. We also investigate correlations between variables to identify potential predictors for modeling. Overall, this comprehensive EDA process helps us better understand the data set, uncover patterns, and detect potential anomalies, laying the groundwork for building accurate and reliable predictive models.** 
 
 ### a. Basic EDA
+**In the Basic EDA section, we examine the dataset's structure and composition, focusing on data types, variable names, and the number of observations. Next, we address missing values and identify outliers, ensuring our data is reliable and robust for further analysis. This fundamental step lays the groundwork for a more in-depth exploration of the relationships between health-related variables in subsequent phases of the EDA process.**
+
+#### Data Structure and composition
 **Look at the data type, variable names, and number of observations. Understand what each variable represents and what type of analysis you may need to perform.**
-```{r echo=T, include=T, eval=T, results='markup'}
+```{r echo=T, include=T, eval=T, results='markup', collapse=T}
 # Look at the datatypes
 str(geo_health_df)
 
 # A number of observation
 nrow(geo_health_df)
-
-# Understand what each variable represents and what type of analysis you may need to perform.
 ```
 
 #### Check for missing values
