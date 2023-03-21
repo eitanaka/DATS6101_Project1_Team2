@@ -76,7 +76,7 @@ geo_health_df <- read_csv(url(urlfile))
 **This Exploratory Data Analysis (EDA) section aims to examine and understand the relationships between various health-related variables, such as depression, mental health, sleep, and lack of physical activity. We begin by performing basic EDA, which involves examining the data types, variable names, and the number of observations. We then check for missing values, outliers, and data distribution, addressing any issues that may impact the analysis. Next, we conduct descriptive statistics to understand the data's central tendency, variability, and spread. A series of visualizations and summary statistics for each variable at the national and state levels follow this. We also investigate correlations between variables to identify potential predictors for modeling. Overall, this comprehensive EDA process helps us better understand the data set, uncover patterns, and detect potential anomalies, laying the groundwork for building accurate and reliable predictive models.** 
 
 ### a. Basic EDA
-**In the Basic EDA section, we examine the dataset's structure and composition, focusing on data types, variable names, and the number of observations. Next, we address missing values and identify outliers, ensuring our data is reliable and robust for further analysis. This fundamental step lays the groundwork for a more in-depth exploration of the relationships between health-related variables in subsequent phases of the EDA process.**
+**In the Basic EDA section, we scrutinize the dataset's structure and composition by focusing on data types, variable names, and the number of observations. Subsequently, we address missing values and identify outliers to ensure our data is reliable and robust for further analysis. This crucial step establishes a solid foundation for a deeper exploration of the relationships between health-related variables in the subsequent phases of the EDA process.**
 
 #### Data Structure and composition
 ```{r echo=T, include=T, eval=T, results='markup', collapse=T}
@@ -91,19 +91,13 @@ nrow(geo_health_df)
 
 
 #### Check for missing values
-**Missing data can cause issues in the analysis. Check for missing values and decide how to handle them (either by imputing or dropping them).**
-```{r}
+```{r echo=T, include=T, eval=T, results='markup', collapse=T}
 # check for the missing value
 sum(is.na(geo_health_df))
 ```
+**In this dataset, we carefully examined missing values across all variables. Fortunately, our dataset is complete, and there are no missing values. This is a significant advantage, as it ensures the reliability and robustness of our analysis, eliminating the need for imputation or other techniques to address missing data. In addition, a complete dataset enables us to move forward confidently in exploring the relationships between health-related variables.**
 
-#### Check for outliers
-**Outliers can skew the analysis and affect the model's performance. Identify and understand the presence of any outliers and determine whether to remove it or not.**
-
-#### Check for data distribution
-**The distribution of each variable in the dataset and identify whether the data is normally distributed or skewed using descriptive statistics and visualizations.**
-
-**We can check if there are any outliers present in the dataset using the outlierKD2 function.**
+#### Check for outliers and data distribution
 ```{r}
 # check for outliers
 outlier_Depression  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.DEPRESSION)
@@ -111,9 +105,10 @@ outlier_MLHTH  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.MHLTH)
 outlier_SLEEP  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.SLEEP)
 outlier_LPA  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.LPA)
 ```
+**We assessed the presence of outliers in the health-related variables by analyzing their distributions. Both the original and the data without outliers displayed normal distributions for Depression, MHLTH, and Sleep. In contrast, LPA showed a right-skewed distribution. Comparing the datasets revealed minimal differences between those with and without outliers. Therefore, we chose to analyze the dataset containing outliers, expecting a minimal impact on our findings while enabling a comprehensive understanding of the relationships among the health-related variables.**
 
 ### b. Descriptive Statistics 
-**To understand the central tendency, variability, and spread of the data.**
+**In the descriptive statistics section, our objective is to understand the central tendency, variability, and spread of various health-related indicators. We analyze the dataset at national and state levels, focusing on critical aspects of health and well-being. By calculating summary statistics, standard deviations, and mean values for each state, we create visual representations using maps and boxplots. This comprehensive analysis allows us to identify trends, patterns, and regional disparities, paving the way for a deeper exploration of the relationships and underlying factors influencing these health-related variables.**
 ```{r}
 # Create a list containing the data frames by each state
 data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
