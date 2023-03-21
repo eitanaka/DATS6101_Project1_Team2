@@ -54,13 +54,16 @@ geo_health_df <- read_csv(url(urlfile))
 ## 1. Introduction:
 **Add paragraphs here**
 
-### a. SMART Question
-**Add paragraphs here**
-**Research Question: How lack of sleep and less physical activities is impacting human mental health and how it leads to depression issues we are assuming based on modern lifestyle.**
-
-### b. Dataset
+### a. Dataset
 **Add paragraphs here**
 **Basic information about a dataset: We will look at the dataset county-level geographic health disparities in the US 2020. This dataset offers model-based census tract-level estimates of the prevalence of 29 health outcomes, preventive services usages, chronic disease-related health risk behaviors, and health statuses as part of the 2020 U.S Census.It covers the entire United States- 50 states and the District of Columbia (DC) at the county, place, census tract, and ZIP Code Tabulation Area levels. At four geographic levels, it uniformly offers information on this huge scale for local locations. The Epidemiology and Surveillance Branch of the Centers for Disease Control and Prevention (CDC), Division of Population Health, provided the estimates.**
+
+### b. SMART Question
+**Add paragraphs here**
+**Initial Question1: Is there a significant relationship between the prevalence of depression, poor mental health, lack of sleep, lack of physical activity and geographic location in the US?**
+**Initial Question2: Are depression and other variables correlated?/ Is there any correlation between depression and other three variables?**
+**Research Question: How lack of sleep and less physical activities is impacting human mental health and how it leads to depression issues we are assuming based on modern lifestyle./To what extent are lack of sleep and lack of physical activity correlated with poor mental health and depression among tracts and states in the US?**
+
 
 ### c. Data preparation
 **Add paragraphs here**
