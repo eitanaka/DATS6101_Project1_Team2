@@ -60,7 +60,7 @@ geo_health_df <- read_csv(url(urlfile))
 
 ### b. Dataset
 **Add paragraphs here**
-**Basic information about a dataset: It contains model-based tract-level estimates of the prevalence of 29 health outcomes, preventive services usages, chronic disease-related health risk behaviors, and health statuses as part of the 2020 U.S Census. Covers the entire United States—50 states and the District of Columbia—at county, place, census tract, and ZIP Code Tabulation Area levels.**
+**Basic information about a dataset: We will look at the dataset county-level geographic health disparities in the US 2020. This dataset offers model-based census tract-level estimates of the prevalence of 29 health outcomes, preventive services usages, chronic disease-related health risk behaviors, and health statuses as part of the 2020 U.S Census.It covers the entire United States- 50 states and the District of Columbia (DC) at the county, place, census tract, and ZIP Code Tabulation Area levels. At four geographic levels, it uniformly offers information on this huge scale for local locations. The Epidemiology and Surveillance Branch of the Centers for Disease Control and Prevention (CDC), Division of Population Health, provided the estimates.**
 
 ### c. Data preparation
 **Add paragraphs here**
