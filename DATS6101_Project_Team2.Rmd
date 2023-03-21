@@ -67,10 +67,10 @@ geo_health_df <- read_csv(url(urlfile))
 
 
 ### c. Data cleaning and preparation
-
+**After some analysis and research, we decided to work on some specific data, for which we had to clean our dataset. We created a subset keeping only some variables by reshape dataset from long to wide: There are 10 variables in our new subset: Year, State Abbreviation, County Name, County FIPS, Location Name, Total Population (per tract). Furthermore, filtering only rows with health measure of interest.That is Depression, Mental Health, Lack of Sleep, Lack of Leisure Time Physical Activity (estimated % of tract with condition).**
 
 ### d. Independent and dependent variable
-**Add paragraphs here**
+
 
 ## 2. EDA
 **This Exploratory Data Analysis (EDA) section aims to examine and understand the relationships between various health-related variables, such as depression, mental health, sleep, and lack of physical activity. We begin by performing basic EDA, which involves examining the data types, variable names, and the number of observations. We then check for missing values, outliers, and data distribution, addressing any issues that may impact the analysis. Next, we conduct descriptive statistics to understand the data's central tendency, variability, and spread. A series of visualizations and summary statistics for each variable at the national and state levels follow this. We also investigate correlations between variables to identify potential predictors for modeling. Overall, this comprehensive EDA process helps us better understand the data set, uncover patterns, and detect potential anomalies, laying the groundwork for building accurate and reliable predictive models.** 
