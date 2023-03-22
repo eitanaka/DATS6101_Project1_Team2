@@ -280,11 +280,11 @@ head(mean_df)
 ```
 
 #### Boxplots Analysis
-The boxplot analysis provides a comprehensive visualization of the distribution and spread of four health-related variables across U.S. states. Each point in the boxplot represents state-level health data, showcasing variations within and between states.
+The boxplot analysis provides a comprehensive visualization of the distribution and spread of four health-related variables across U.S. states. Each point of the boxplots represents state-level mean values, showcasing variations just between states.
 
 Key features of the boxplots include the largest and smallest values for each health variable: Depression is highest in West Virginia (WV) and lowest in Hawaii (HI); leisure-time physical inactivity (LPA) peaks in Kentucky (KY) and reaches a minimum in Utah (UT); poor mental health (MHLTH) is most prevalent in WV and least common in South Dakota (SD); and sleep deprivation is highest in HI and lowest in Minnesota (MN).
 
-Among the health variables, sleep deprivation has the largest mean value, followed by LPA, depression, and MHLTH. This boxplot analysis highlights the disparities in health outcomes across states, which is essential for understanding regional differences and informing targeted public health interventions.
+Among the health variables, sleep deprivation has the largest mean value, followed by LPA, Depression, and MHLTH. This boxplot analysis highlights the disparities in health outcomes across states, which is essential for understanding regional differences and informing targeted public health interventions.
 
 ```{r}
 # create a long format of the data
