@@ -31,6 +31,8 @@ require(coefplot)
 require(MASS)
 require(scatterplot3d)
 require(GGally)
+require(broom)
+require(knitr)
 ```
 
 ```{r setup, include=FALSE}
@@ -47,9 +49,6 @@ options(scientific=T, digits = 3)
 urlfile = 'https://raw.githubusercontent.com/eitanaka/DATS6101_Project1_Team2/main/dataset/geographic_health_disparities.csv'
 geo_health_df <- read_csv(url(urlfile))
 ```
-
-## Abstruct
-**Add paragraphs here**
 
 ## 1. Introduction:
 **Add paragraphs here**
@@ -73,10 +72,10 @@ geo_health_df <- read_csv(url(urlfile))
 
 
 ## 2. EDA
-**This Exploratory Data Analysis (EDA) section aims to examine and understand the relationships between various health-related variables, such as depression, mental health, sleep, and lack of physical activity. We begin by performing basic EDA, which involves examining the data types, variable names, and the number of observations. We then check for missing values, outliers, and data distribution, addressing any issues that may impact the analysis. Next, we conduct descriptive statistics to understand the data's central tendency, variability, and spread. A series of visualizations and summary statistics for each variable at the national and state levels follow this. We also investigate correlations between variables to identify potential predictors for modeling. Overall, this comprehensive EDA process helps us better understand the data set, uncover patterns, and detect potential anomalies, laying the groundwork for building accurate and reliable predictive models.** 
+This Exploratory Data Analysis (EDA) section aims to examine and understand the relationships between various health-related variables, such as depression, mental health, sleep, and lack of physical activity. We begin by performing basic EDA,( which involves examining the data types, variable names, and the number of observations. We then check for missing values, outliers, and data distribution, addressing any issues that may impact the analysis. Next, we conduct descriptive statistics to understand the data's central tendency, variability, and spread. A series of visualizations and summary statistics for each variable at the national and state levels follow this. We also investigate correlations between variables to identify potential predictors for modeling. Overall, this comprehensive EDA process helps us better understand the dataset, uncover patterns, and detect potential anomalies, laying the groundwork for building accurate and reliable predictive models.
 
 ### a. Basic EDA
-**In the Basic EDA section, we scrutinize the dataset's structure and composition by focusing on data types, variable names, and the number of observations. Subsequently, we address missing values and identify outliers to ensure our data is reliable and robust for further analysis. This crucial step establishes a solid foundation for a deeper exploration of the relationships between health-related variables in the subsequent phases of the EDA process.**
+In the Basic EDA section, we scrutinize the dataset's structure and composition by focusing on data types, variable names, and the number of observations. Subsequently, we address missing values and identify outliers to ensure our data is reliable and robust for further analysis. This crucial step establishes a solid foundation for a deeper exploration of the relationships between health-related variables in the subsequent phases of the EDA process.
 
 #### Data Structure and composition
 ```{r echo=T, include=T, eval=T, results='markup', collapse=T}
@@ -86,8 +85,8 @@ str(geo_health_df)
 # A number of observation
 nrow(geo_health_df)
 ```
-**The dataset comprises 72,337 observations and 12 variables, including numeric and character data types. The variables include information on the year, state abbreviation, state description, county name, county FIPS code, location name, and total population. Additionally, the dataset contains values for depression, leisure-time physical inactivity (LPA), sleep, poor general health (PHLTH), and poor mental health (MHLTH). The data represents various health-related indicators for different locations within the United States, which can be further analyzed to identify trends and relationships among these variables.**
-**(Add image to easy to interpret what variables in it)**
+Our dataset consists of 72,337 observations and 12 variables, including both numeric and character data types. These variables provide information on the year, state abbreviation, state description, county name, county FIPS code, location name, and total population. Moreover, the dataset includes values for depression, leisure-time physical inactivity (LPA), sleep, poor general health (PHLTH), and poor mental health (MHLTH). This data represents various health-related indicators across different locations within the United States, enabling further analysis to identify trends and relationships among these variables.
+**(Add image to easy to interpret what variables in it?)**
 
 
 #### Check for missing values
@@ -95,9 +94,10 @@ nrow(geo_health_df)
 # check for the missing value
 sum(is.na(geo_health_df))
 ```
-**In this dataset, we carefully examined missing values across all variables. Fortunately, our dataset is complete, and there are no missing values. This is a significant advantage, as it ensures the reliability and robustness of our analysis, eliminating the need for imputation or other techniques to address missing data. In addition, a complete dataset enables us to move forward confidently in exploring the relationships between health-related variables.**
+Upon examining the dataset, we found no missing values across all variables. This completeness is a significant advantage, as it ensures the reliability and robustness of our analysis without requiring imputation or other techniques to address missing data. Consequently, we can confidently proceed with our exploration of the relationships between health-related variables.
 
 #### Check for outliers and data distribution
+We assess the presence of outliers in the health-related variables by analyzing their distributions. Both the original and the data without outliers display normal distributions for Depression, MHLTH, and Sleep. In contrast, LPA shows a right-skewed distribution. Comparing the dataset reveals minimal differences between those with and without outliers. Therefore, we choose to analyze the dataset containing outliers, expecting a minimal impact on our findings while enabling a comprehensive understanding of the relationships among the health-related variables.
 ```{r}
 # check for outliers
 outlier_Depression  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.DEPRESSION)
@@ -105,39 +105,63 @@ outlier_MLHTH  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.MHLTH)
 outlier_SLEEP  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.SLEEP)
 outlier_LPA  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.LPA)
 ```
-**We assessed the presence of outliers in the health-related variables by analyzing their distributions. Both the original and the data without outliers displayed normal distributions for Depression, MHLTH, and Sleep. In contrast, LPA showed a right-skewed distribution. Comparing the datasets revealed minimal differences between those with and without outliers. Therefore, we chose to analyze the dataset containing outliers, expecting a minimal impact on our findings while enabling a comprehensive understanding of the relationships among the health-related variables.**
 
 ### b. Descriptive Statistics 
-**In the descriptive statistics section, our objective is to understand the central tendency, variability, and spread of various health-related indicators. We analyze the dataset at national and state levels, focusing on critical aspects of health and well-being. By calculating summary statistics, standard deviations, and mean values for each state, we create visual representations using maps and boxplots. This comprehensive analysis allows us to identify trends, patterns, and regional disparities, paving the way for a deeper exploration of the relationships and underlying factors influencing these health-related variables.**
+In the descriptive statistics section, our objective is to understand the central tendency, variability, and spread of various health-related indicators. We analyze the dataset at national and state levels, focusing on critical aspects of health and well-being. By calculating summary statistics, standard deviations, and mean values for each state, we create visual representations using maps and boxplots. This comprehensive analysis allows us to identify trends, patterns, and regional disparities, paving the way for a deeper exploration of the relationships and underlying factors influencing these health-related variables.
 ```{r}
 # Create a list containing the data frames by each state
 data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
 ```
 
-#### National level summary
-```{r}
+#### National Level Summary Statistics
+```{r echo=T, include=T, eval=T, results='asis', fig.align='center', fig.width=15, fig.height=10, out.width="100%", max.width="100%"}
 summary_nation_DEPRESSION <- summary(geo_health_df$Data_Value.DEPRESSION)
 summary_nation_MHLTH <- summary(geo_health_df$Data_Value.MHLTH)
 summary_nation_SLEEP <- summary(geo_health_df$Data_Value.SLEEP)
 summary_nation_LPA <- summary(geo_health_df$Data_Value.LPA)
-summary_nation_DEPRESSION
-summary_nation_MHLTH
-summary_nation_SLEEP
-summary_nation_LPA
+
+summary_nation_DEPRESSION_df <- tidy(summary_nation_DEPRESSION)
+summary_nation_MHLTH_df <- tidy(summary_nation_MHLTH)
+summary_nation_SLEEP_df <- tidy(summary_nation_SLEEP)
+summary_nation_LPA_df <- tidy(summary_nation_LPA)
+
+summary_df <- rbind(summary_nation_DEPRESSION_df, summary_nation_MHLTH_df, summary_nation_SLEEP_df, summary_nation_LPA_df)
+summary_df$Variable <- c("DEPRESSION", "MHLTH", "SLEEP", "LPA")
+summary_df <- summary_df[,c("Variable", "minimum", "q1", "median", "mean", "q3", "maximum")]
+
+kable(summary_df, align = "c", 
+      col.names = c("Var", "Min", "1Q", "Median", "Mean", "3Q", "Max"), 
+      caption = "National Level Summary Statistics of Health Variables")
 ```
 
-#### Depression by state(The variable about Health outcome)
-**summary statistics about the percentage of the population affected by depression in each state using the summary function.Using the sd function, we can also get each state's standard deviation. **
+At the national level, the summary statistics reveal the following patterns for the health-related variables:
+
+- Depression: The percentage of the population affected by depression ranges from 8.5% to 37.8%, with a median of 20.4% and a mean of 20.5%.
+
+- Mental Health (MHLTH): The percentage of people experiencing poor mental health for 14 or more days ranges from 6.1% to 33.0%, with a median of 15.0% and a mean of 15.1%.
+
+- Sleep: The percentage of the population with sleep disturbances ranges from 19.8% to 54.4%, with a median of 33.5% and a mean of 34.0%.
+
+- Leisure-time Physical Inactivity (LPA): The percentage of the population without leisure time ranges from 7.8% to 63.7%, with a median of 23.6% and a mean of 24.5%. 
+
+These results highlight the necessity of examining the complex relationships between these variables to better understand their correlation and develop effective strategies for improving public health.
+
+#### The map-based analysis
+The map-based analysis presents an overview of the mean values for four health conditions across U.S. counties. These color-coded maps utilize darker shades to indicate higher mean values for each health condition.
+The first map displays mean depression values, revealing a higher prevalence in the eastern region, particularly around West Virginia and the western part of Washington. The second map shows the average rates of poor mental health, which are more common in the eastern states than in the West.
+The third map illustrates average sleep deprivation levels, demonstrating a higher prevalence in the eastern part of the country compared to the western region. Lastly, the fourth map highlights the percentages of individuals engaging in less physical activity, with the Southeast displaying exceptionally high rates.
+These findings suggest that, on average, the East experiences worse health outcomes than the West concerning the variables of interest. This information is crucial for understanding regional health disparities and informing targeted public health interventions.
+
 ```{r EDA_basicstats_Depression}
 # Summary statistic about percentage of population affected with depression in each state
 summary_by_state_DEPRESSION <- lapply(data_by_state, function(x) summary(x$Data_Value.DEPRESSION))
-head(summary_by_state_DEPRESSION,3)
-tail(summary_by_state_DEPRESSION,3)
+# head(summary_by_state_DEPRESSION,3)
+# tail(summary_by_state_DEPRESSION,3)
 
 # A list of standard deviation for percentage of population affected with Depression in each state
 sd_by_state_DEPRESSION<- lapply(data_by_state, function(x) sd(x$Data_Value.DEPRESSION))
-head(sd_by_state_DEPRESSION,3)
-tail(sd_by_state_DEPRESSION,3)
+# head(sd_by_state_DEPRESSION,3)
+# tail(sd_by_state_DEPRESSION,3)
 
 # A data frame containing mean values of the incidence rate of Depression for each country in each state
 mean_by_state_DEPRESSION <- lapply(data_by_state, function(x) mean(x$Data_Value.DEPRESSION))
@@ -156,17 +180,16 @@ plot_usmap(data=mean_df_DEPRESSION, values="Mean_Depression", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-#### Mental health by state(The variable about Health Status)
 ```{r echo=T, eval=T, include=T, results='markup'}
 # Summary of the percentage of the population in each country in each state with a health status of 14 or more days with poor mental health
 summary_by_state_MHLTH <- lapply(data_by_state, function(x) summary(x$Data_Value.MHLTH))
-head(summary_by_state_MHLTH,3)
-tail(summary_by_state_MHLTH,3)
+# head(summary_by_state_MHLTH,3)
+# tail(summary_by_state_MHLTH,3)
 
 # The list containing standard deviation per state: The percentage of the population in each country with a health status of 14 or more day with poor mental health
 sd_by_state_MHLTH <- lapply(data_by_state, function(x) sd(x$Data_Value.MHLTH))
-head(sd_by_state_MHLTH,3)
-tail(sd_by_state_MHLTH,3)
+# head(sd_by_state_MHLTH,3)
+# tail(sd_by_state_MHLTH,3)
 
 # The data frame containing mean value per state: Percentage of the population in each country with poor mental health for 14 or more days as a health status.
 mean_by_state_MHLTH <- lapply(data_by_state, function(x) mean(x$Data_Value.MHLTH))
@@ -185,17 +208,16 @@ plot_usmap(data=mean_df_MHLTH, values="Mean_MHLTH", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-#### Sleep by state(The variable about Health Risk Behabior)
 ```{r echo=T, eval=T, include=T, results='markup'}
 # A list of summary statistic per state: Each data is a percentage of sleep disturbance in each country
 summary_by_state_SLEEP <- lapply(data_by_state, function(x) summary(x$Data_Value.SLEEP))
-head(summary_by_state_SLEEP,3)
-tail(summary_by_state_SLEEP,3)
+# head(summary_by_state_SLEEP,3)
+# tail(summary_by_state_SLEEP,3)
 
 # A list of standard diviation per state: Each data is a percentage of sleep disturbance in each country
 sd_by_state_SLEEP <- lapply(data_by_state, function(x) sd(x$Data_Value.SLEEP))
-head(sd_by_state_SLEEP,3)
-tail(sd_by_state_SLEEP,3)
+# head(sd_by_state_SLEEP,3)
+# tail(sd_by_state_SLEEP,3)
 
 # A data frame about mean value per state: Each data is a percentage of sleep disturbance in each country
 mean_by_state_SLEEP <- lapply(data_by_state, function(x) mean(x$Data_Value.SLEEP))
@@ -214,17 +236,16 @@ plot_usmap(data=mean_df_SLEEP, values="Mean_Sleep", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-#### LPA by state (A variable about Health Risk Behavior)
 ```{r}
 # A list of summary statistic per state: Data are percent of population of people without leisure time in each country
 summary_by_state_LPA <- lapply(data_by_state, function(x) summary(x$Data_Value.LPA))
-head(summary_by_state_LPA,3)
-tail(summary_by_state_LPA,3)
+# head(summary_by_state_LPA,3)
+# tail(summary_by_state_LPA,3)
 
 # A list of standard deviation per state: data are percent of population of people without leisure time in each country
 sd_by_state_LPA <- lapply(data_by_state, function(x) sd(x$Data_Value.LPA))
-head(sd_by_state_LPA,3)
-tail(sd_by_state_LPA,3)
+# head(sd_by_state_LPA,3)
+# tail(sd_by_state_LPA,3)
 
 # A data frame about mean value per state: data are percent of population of people without leisure time in each country
 mean_by_state_LPA <- lapply(data_by_state, function(x) mean(x$Data_Value.LPA))
@@ -248,10 +269,16 @@ plot_usmap(data=mean_df_LPA, values="Mean_LPA", labels = TRUE) +
 mean_df <- merge(merge(mean_df_DEPRESSION, mean_df_MHLTH, by=c("State", "fips")), mean_df_SLEEP, by=c("State", "fips"))
 mean_df <- merge(mean_df, mean_df_LPA, by=c("State", "fips"))
 colnames(mean_df)[3:6] <- c("Depression", "MHLTH", "Sleep", "LPA")
-head(mean_df)
+# head(mean_df)
 ```
 
-#### Comparing the mean values of all three variables using boxplot. 
+#### The Boxplot analysis
+The boxplot analysis provides a comprehensive visualization of the distribution and spread of four health-related variables across U.S. states. Each point in the boxplot represents state-level health data, showcasing variations within and between states.
+
+Key features of the boxplots include the largest and smallest values for each health variable: Depression is highest in West Virginia (WV) and lowest in Hawaii (HI); leisure-time physical inactivity (LPA) peaks in Kentucky (KY) and reaches a minimum in Utah (UT); poor mental health (MHLTH) is most prevalent in WV and least common in South Dakota (SD); and sleep deprivation is highest in HI and lowest in Minnesota (MN).
+
+Among the health variables, sleep deprivation has the largest mean value, followed by LPA, depression, and MHLTH. This boxplot analysis highlights the disparities in health outcomes across states, which is essential for understanding regional differences and informing targeted public health interventions.
+
 ```{r}
 # create a long format of the data
 mean_df_long <- gather(mean_df, key = "Variable", value = "Value", -State, -fips)
@@ -270,8 +297,6 @@ ggplot(mean_df_long, aes(x = "", y = Value, fill = Variable)) +
   labs(title = "Health Condition Distributions", x="Health Conditions", y = "% of State Pop. with Condition") +
   geom_text(data = max_min_df, aes(x = 1.25, y = Value, label = State), size = 4, fontface = "bold", hjust = -0.2, color = "black") # add state labels for max and min values
 ```
-
-This code will create a table showing the mean, median, and standard deviation for each variable (depression, sleep, and mental health) across all states, grouped by state names or FIPS codes. You can compare the results to see how each variable varies across different states.
 
 ### c. Correlations
 **Explore the relationships between variables and identify any correlations that may exist. This can help to identify potential predictors for modeling.**
@@ -409,11 +434,14 @@ We failed to reject depression and there is a significant test for mental health
 **Add paragraphs here**
 
 ## 4. Discussion
-**Add paragraphs here**
+
 ### a. Limitations
-**Add paragraphs here**
+This research has several limitations that should be considered. First, the cross-sectional nature of the data prevents the establishment of causal relationships between lifestyle factors and mental health outcomes, as only associations can be inferred. Second, the research is limited to the variables available in the dataset, potentially omitting other relevant factors, such as nutrition, social support, or access to healthcare, which could influence the observed relationships.
+
+Moreover, the study relies on self-reported data for some variables, which may be subject to recall bias or social desirability bias, potentially affecting the accuracy of the results. Additionally, the analysis does not take into account potential confounding variables or interactions between variables that could influence the associations between lifestyle factors and mental health outcomes.
+
 ### b. Future Enforcement
-**Add paragraphs here**
+This study suggests that lifestyle factors such as sleep and physical activity may have an impact on mental health outcomes. Further research suggestions include expanding the scope of the analysis to incorporate additional variables such as nutritional habits, social support, access to healthcare, and socioeconomic factors. Longitudinal and time-series data could also be employed to investigate causal relationships between lifestyle factors and mental health outcomes, as well as the impact of the COVID-19 pandemic on these relationships. Examining potential confounding variables and interactions between variables, implementing advanced statistical techniques, and conducting qualitative research could provide deeper insights into the complex relationships between lifestyle factors and mental health outcomes. By incorporating these suggestions, future research could contribute to a better understanding of the impact of lifestyle factors on mental health, particularly in the context of the COVID-19 pandemic.
 
 ## 5. Conclusion
 **Add paragraphs here**
