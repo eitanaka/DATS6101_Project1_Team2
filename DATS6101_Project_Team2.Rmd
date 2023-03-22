@@ -101,8 +101,8 @@ sum(is.na(geo_health_df))
 ```
 Upon examining the dataset, we found no missing values across all variables. This completeness is a significant advantage, as it ensures the reliability and robustness of our analysis without requiring imputation or other techniques to address missing data. Consequently, we can confidently proceed with our exploration of the relationships between health-related variables. 
 
-#### Check for Outliers and Data Distribution
-We assess the presence of outliers in the health-related variables by analyzing their distributions. Both the original and the data without outliers display normal distributions for Depression, MHLTH, and Sleep. In contrast, LPA shows a right-skewed distribution. Comparing the dataset reveals minimal differences between those with and without outliers. Therefore, we choose to analyze the dataset containing outliers, expecting a minimal impact on our findings while enabling a comprehensive understanding of the relationships among the health-related variables. 
+#### Check for Outliers and Data Distributions
+We assess the presence of outliers in the health-related variables by analyzing their distributions. Both the original and the data without outliers display normal distributions for Depression, MHLTH, and Sleep. In contrast, LPA shows a small right-skewed distribution. Comparing the dataset reveals minimal differences between those with and without outliers. Therefore, we choose to analyze the dataset containing outliers, expecting a minimal impact on our findings while enabling a comprehensive understanding of the relationships among the health-related variables. 
 ```{r fig.width=8, fig.height=4}
 # check for outliers
 outlier_Depression  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.DEPRESSION)
