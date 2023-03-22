@@ -275,6 +275,9 @@ This code will create a table showing the mean, median, and standard deviation f
 
 ### c. Correlations(Heat Map)
 **Exploring the relationships between variables and identifying any correlations that may exist. This can help to identify potential predictors for modeling.**
+
+We begin to investigate the relationship between the four health conditions by generating a mixed correlation matrix of the national-level correlations between our variables. The strongest correlations are between Depression and MHLTH (0.75), Sleep and LPA (0.64), MHLTH and Sleep (0.60), and MHLTH and LPA (0.59). In other words, states with high levels of depression are also likely to have high levels of poor mental health, states with high levels of inadequate sleep are also likely to have high levels of inadequate physical activity. And those states with high levels of poor mental health are likely to have high levels of both inadequate sleep and inadequate physical activity.
+
 **Firstly, we will be checking the correlation between health conditions at national level by investigating the relationship between the four health conditions by generating a mixed correlation matrix of the national-level correlations between our variables.With the cor() function in R, we are calculating a correlation matrix. We are concentrating on four variables: depression, mental health (MHLTH), sleep, and LPA (physical activity) on track level(county - 72337).Then utilizing the corrplot() method to generate a heat map from the correlation matrix. This may be a helpful tool to see how different variables are correlated. Another method to display correlations across variables is to create a mixed correlation heat map using the corrplot.mixed() function. The strongest correlations were between Depression and MHLTH, Sleep and LPA, MHLTH and Sleep, and MHLTH and LPA. In other words, states with high levels of depression are also likely to have high levels of poor mental health, states with high levels of inadequate sleep are also likely to have high levels of inadequate physical activity. And those states with high levels of poor mental health are likely to have high levels of both inadequate sleep and inadequate physical activity. However, there is the least correlation observed between MHLTH and sleep. Overall, using these procedures can help you examine the connections between your data's components/variables and find new predictors for modeling.**
 
 
@@ -362,7 +365,7 @@ plot_usmap(data=cor_by_state_df, values="MHLTH_LPA", labels = TRUE) +
 ### d. Hypothesis testing
 **If applicable, conduct statistical hypothesis tests to confirm or reject hypotheses about the data.**
 
-#### Linear Regression Test
+#### Multiple Linear Regressions
 ```{r}
 # multiple linear regressions
 
@@ -411,7 +414,11 @@ mhlth.mlg.table <- stargazer(mhlth.mlg,
 
 ```
 
-We failed to reject depression and there is a significant test for mental health . that means mental health is effected by sleep and LPA. 
+Our multiple linear regressions produce some valuable results: 
+
+The **MHLTH** regression output includes nonzero statistically significant regression coefficients for both Sleep (0.2000) and LPA (0.1450). This means that a 1% increase in Sleep is associated with a 0.20% increase in MHLTH and a 1% increase in LPA is associated with a 0.15% increase in MHLTH. Both regression coefficients are statistically significant at the 5% level: Sleep with a p-value of 0.0110 and LPA with a p-value of 0.0149. Because both of these values are below 0.05, we can be 95% confident that there is a positive linear relationship between both of the independent variables (Sleep and LPA) and the dependent variable (MHLTH). Consequently, we reject the null hypothesis for MHLTH. Variations in the lifestyle factors Sleep and LPA both seem to be associated with variations in MHLTH. And of these lifestyle factors, Sleep (0.2000) seems to have a slightly greater association with MHLTH than LPA (0.1450). This regression has an adjusted R-squared value of 0.4120 indicating that after accounting for both the number of observations and the number of variables used, approximately 41% of the variation in MHLTH levels is associated with variation in Sleep and LPA levels. This is very high! Such a result is a valuable finding!
+
+By contrast, the **Depression** regression output includes nonzero regression coefficients for Sleep (0.0339) and LPA (0.2180), but these coefficients are not statistically significant. Sleep has a p-value of 0.8490 and LPA has a p-value of 0.1110. Neither value is below 0.05 (or even below 0.10), so we cannot be confident that there is a significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (Depression). Consequently, we fail to reject the null hypothesis for Depression. The effect of Sleep and LPA on Depression seems to be negligible.
 
 ## 3. Result
 **Add paragraphs here**
