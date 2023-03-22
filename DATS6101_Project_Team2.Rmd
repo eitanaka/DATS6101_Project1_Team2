@@ -333,7 +333,8 @@ ggplot(mean_df, aes(x = LPA)) +
   geom_smooth(aes(y = MHLTH, color='black'), method = "lm", se = TRUE)
 ```
 
-#### Correlation between MHLTH and sleep, MHLTH and LPA using us map.
+#### Correlation - State level. It is between MHLTH and sleep, MHLTH and LPA using us map.
+**These two visualizations show the correlation between MHLTH (mental health) and Sleep and between MHLTH and LPA (physical activity) across the United States. Each state is colored according to the correlation coefficient between these variables, with darker blue indicating a stronger positive correlation and white indicating no correlation or a negative correlation. The color scale is shown on the right side of each map. States with missing data are colored in grey.The titles of the two maps indicate which variables are being compared. From the US maps, we can conclude that there is a positive correlation between mental health (MHLTH) and both sleep and physical activity (LPA) across most states in the US. States with darker blue colors indicate stronger positive correlations between mental health and sleep or mental health and physical activity. On the other hand, states with no correlation or negative correlation are colored white or shades of blue closer to white.Therefore, these maps suggest that sleep and physical activity are positively associated with mental health in most US states, indicating that promoting healthy sleep habits and physical activity can potentially improve mental health outcomes. However, it is important to keep in mind that correlation does not necessarily imply causation, and further research would be needed to establish a causal relationship between these variables.**
 ```{r}
 # The map of US about correlation between MHLTH and Sleep.
 plot_usmap(data=cor_by_state_df, values="MHLTH_SLEEP", labels = TRUE) +
