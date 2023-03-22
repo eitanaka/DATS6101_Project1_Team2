@@ -50,6 +50,11 @@ urlfile = 'https://raw.githubusercontent.com/eitanaka/DATS6101_Project1_Team2/ma
 geo_health_df <- read_csv(url(urlfile))
 ```
 
+## Abstract
+This paper explores the relationships between four health conditions (depression, poor mental health, lack of sleep, and lack of physical activity) using data from the Centers for Disease Control and Prevention (CDC) PLACES project. The paper begins by examining national-level correlations between the four health conditions and identifying the strongest correlations. State-level correlations are then explored using a US map that highlights the correlations between mental health and both sleep and physical activity across most US states.
+
+Next, multiple linear regression analyses are conducted to isolate the effect of each lifestyle factor (sleep and physical activity) on each health outcome (depression and poor mental health) while controlling for the effects of the other independent variable. The results suggest that lifestyle factors influence poor mental health more than depression and that, of these lifestyle factors, sleep has a greater influence than physical activity.
+
 ## 1. Introduction:
 Our initial research goal is to investigate the geographic distribution of health conditions in the United States during the year 2020, identify emerging patterns of poor health, and determine which health risk behaviors should be targeted for treatment.
 
