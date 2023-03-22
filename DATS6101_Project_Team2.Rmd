@@ -48,7 +48,7 @@ urlfile = 'https://raw.githubusercontent.com/eitanaka/DATS6101_Project1_Team2/ma
 geo_health_df <- read_csv(url(urlfile))
 ```
 
-## Abstruct
+## Abstract
 **Add paragraphs here**
 
 ## 1. Introduction:
@@ -105,6 +105,7 @@ outlier_MLHTH  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.MHLTH)
 outlier_SLEEP  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.SLEEP)
 outlier_LPA  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.LPA)
 ```
+
 **We assessed the presence of outliers in the health-related variables by analyzing their distributions. Both the original and the data without outliers displayed normal distributions for Depression, MHLTH, and Sleep. In contrast, LPA showed a right-skewed distribution. Comparing the datasets revealed minimal differences between those with and without outliers. Therefore, we chose to analyze the dataset containing outliers, expecting a minimal impact on our findings while enabling a comprehensive understanding of the relationships among the health-related variables.**
 
 ### b. Descriptive Statistics 
@@ -251,7 +252,7 @@ colnames(mean_df)[3:6] <- c("Depression", "MHLTH", "Sleep", "LPA")
 head(mean_df)
 ```
 
-#### Comparing the mean values of all three variables using boxplot. 
+#### Comparing the distributions of all four variables using boxplot. 
 ```{r}
 # create a long format of the data
 mean_df_long <- gather(mean_df, key = "Variable", value = "Value", -State, -fips)
@@ -273,7 +274,7 @@ ggplot(mean_df_long, aes(x = "", y = Value, fill = Variable)) +
 
 This code will create a table showing the mean, median, and standard deviation for each variable (depression, sleep, and mental health) across all states, grouped by state names or FIPS codes. You can compare the results to see how each variable varies across different states.
 
-### c. Correlations(Heat Map)
+### c. Correlations (Heat Map)
 
 We begin to investigate the relationship between the four health conditions by generating a mixed correlation matrix of the national-level correlations between our variables. The strongest correlations are between Depression and MHLTH (0.75), Sleep and LPA (0.64), MHLTH and Sleep (0.60), and MHLTH and LPA (0.59). In other words, states with high levels of depression are also likely to have high levels of poor mental health, states with high levels of inadequate sleep are also likely to have high levels of inadequate physical activity. And those states with high levels of poor mental health are likely to have high levels of both inadequate sleep and inadequate physical activity.
 
@@ -368,15 +369,15 @@ Our hypothesis tests are structured as follows:
 
 **MHLTH**
 
-Null Hypothesis: There is no significant linear relationship between independent variables (Sleep and LPA) and the dependent variable (MHLTH). There are no statistically significant regression coefficients. 
+**Null Hypothesis:** There is no significant linear relationship between independent variables (Sleep and LPA) and the dependent variable (MHLTH). There are no statistically significant regression coefficients. 
 
-Alternative Hypothesis: There is a significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (MHLTH). There is at least one nonzero, statistically significant regression coefficient.
+**Alternative Hypothesis:** There is a significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (MHLTH). There is at least one nonzero, statistically significant regression coefficient.
 
 **Depression**
 
-Null Hypothesis: There is no significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (Depression). There are no statistically significant regression coefficients. 
+**Null Hypothesis:** There is no significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (Depression). There are no statistically significant regression coefficients. 
 
-Alternative Hypothesis: There is a significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (Depression). There is at least one nonzero, statistically significant regression coefficient.
+**Alternative Hypothesis:** There is a significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (Depression). There is at least one nonzero, statistically significant regression coefficient.
 
 
 
