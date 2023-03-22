@@ -235,7 +235,7 @@ mean_df_SLEEP["fips"] <- fips(mean_df_SLEEP$State)
 plot_usmap(data=mean_df_SLEEP, values="Mean_Sleep", labels = TRUE) +
   scale_fill_continuous(low = "white", high = "purple", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
-  ggtitle("Mean Sleep by State") +
+  ggtitle("Mean Lack of Sleep by State") +
   guides(fill = guide_colorbar(title = "Mean %", 
                                 title.position = "top", 
                                 title.hjust = 0.5, 
