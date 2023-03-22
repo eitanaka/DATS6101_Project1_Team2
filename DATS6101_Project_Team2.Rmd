@@ -153,10 +153,10 @@ At the national level, the summary statistics reveal the following patterns for 
 These results highlight the necessity of examining the complex relationships between these variables to better understand their correlation and develop effective strategies for improving public health.
 
 #### Map-based Analysis
-The map-based analysis presents an overview of the mean values for four health conditions across U.S. counties. These color-coded maps utilize darker shades to indicate higher mean values for each health condition.
+The map-based analysis presents an overview of the mean values for four health conditions across U.S. states. These color-coded maps utilize darker shades to indicate higher mean values for each health condition.
 
 The first map displays mean depression values, revealing a higher prevalence in the eastern region, particularly around West Virginia and the western part of Washington. The second map shows the average rates of poor mental health, which are more common in the eastern states than in the West.
-The third map illustrates average sleep deprivation levels, demonstrating a higher prevalence in the eastern part of the country compared to the western region. Lastly, the fourth map highlights the percentages of individuals engaging in less physical activity, with the Southeast displaying exceptionally high rates.
+The third map illustrates average sleep deprivation levels, demonstrating a higher prevalence in the eastern part of the country compared to the western region. The fourth map highlights the percentages of individuals engaging in less physical activity, with the Southeast displaying exceptionally high rates.
 
 These findings suggest that, on average, the East experiences worse health outcomes than the West concerning the variables of interest. This information is crucial for understanding regional health disparities and informing targeted public health interventions.
 ```{r EDA_basicstats_Depression}
