@@ -379,6 +379,7 @@ Null Hypothesis: There is no significant linear relationship between the indepen
 Alternative Hypothesis: There is a significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (Depression). There is at least one nonzero, statistically significant regression coefficient.
 
 
+
 #### Multiple Linear Regression Results
 ```{r}
 # multiple linear regressions
@@ -434,8 +435,27 @@ The **MHLTH** regression output includes nonzero statistically significant regre
 
 By contrast, the **Depression** regression output includes nonzero regression coefficients for Sleep (0.0339) and LPA (0.2180), but these coefficients are not statistically significant. Sleep has a p-value of 0.8490 and LPA has a p-value of 0.1110. Neither value is below 0.05 (or even below 0.10), so we cannot be confident that there is a significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (Depression). Consequently, we fail to reject the null hypothesis for Depression. The effect of Sleep and LPA on Depression seems to be negligible.
 
-## 3. Result
-**Add paragraphs here**
+## 3. Results
+In conclusion, our exploration and testing of the four health variables yields some important insights:
+
+• The distributions of all four health conditions are fairly normally distributed (with the possible exception of LPA which may be slightly right-skewed).
+
+• At the national-level, there is some degree of positive correlation between all four conditions.
+
+• At the state-level, Depression levels are consistently higher than MHLTH levels and Sleep levels are consistently higher than LPA levels.
+
+• Sleep and LPA are more correlated with MHLTH than Depression. This suggests that lifestyle factors may have more of an effect on mental health than depression (although, of course, we cannot make a definitive causal statement).
+
+• MHLTH correlations vary by geography. Its correlations with LPA are more consistent across states than its correlations with Sleep.
+
+• There is a statistically significant linear relationship between independent variables (Sleep and LPA) and MHLTH (dependent variable).
+
+• There is no statistically significant linear relationship between independent variables (Sleep and LPA) and Depression (dependent variable).
+
+• After controlling for variables, Sleep has a slightly greater and more significant effect on MHLTH than LPA.
+
+• In sum, it seems that lifestyle factors influence MHLTH more than Depression, and that of those lifestyle factors, Sleep has a greater influence than LPA. It is worth noting that the MHLTH variable is a measure of individuals’ short-term self-assessed mental health (over the past two weeks) whereas the Depression variable is a measure of individuals’ long-term clinical diagnoses for depression (by a medical professional). So variations in lifestyle factors are associated with variations in less-severe short-term psychological problems but not with variations in severe long-term psychological problems.
+
 
 ## 4. Discussion
 **Add paragraphs here**
