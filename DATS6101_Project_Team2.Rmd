@@ -66,10 +66,10 @@ geo_health_df <- read_csv(url(urlfile))
 **Research Question: How lack of sleep and less physical activities is impacting human mental health and how it leads to depression issues we are assuming based on modern lifestyle./To what extent are lack of sleep and lack of physical activity correlated with poor mental health and depression among tracts and states in the US?**
 
 
-### c. Data cleaning and preparation
+### c. Data Cleaning and Preparation
 **After some analysis and research, we decided to work on some specific data, for which we had to clean our dataset. We created a subset keeping only some variables by reshape dataset from long to wide: There are 10 variables in our new subset: Year, State Abbreviation, County Name, County FIPS, Location Name, Total Population (per tract). Furthermore, filtering only rows with health measure of interest.That is Depression, Mental Health, Lack of Sleep, Lack of Leisure Time Physical Activity (estimated % of tract with condition).**
 
-### d. Independent and dependent variable
+### d. Independent and dependent variables
 **There are four main key variables that we would be considering for this dataset.We got two independent variable that includes Lack of physical exercise and lack of sleep.Dependent variable includes depression and Mental health. Here, we made a logo which easily shows how the independent and dependent variables can have a correlation with one another.Additionally, looking at the symbol, it shows that there is a strong correlation among dependent variables(depression and mental health) and we could even see same kind of correlation among independent variables (lack of sleep and no physical exercise).We will check that by performing some EDA and creating plots to analyse the correlation among all four variables and look at their relationships.**
 
 ## 2. EDA
@@ -78,7 +78,7 @@ geo_health_df <- read_csv(url(urlfile))
 ### a. Basic EDA
 **In the Basic EDA section, we scrutinize the dataset's structure and composition by focusing on data types, variable names, and the number of observations. Subsequently, we address missing values and identify outliers to ensure our data is reliable and robust for further analysis. This crucial step establishes a solid foundation for a deeper exploration of the relationships between health-related variables in the subsequent phases of the EDA process.**
 
-#### Data Structure and composition
+#### Data Structure and Composition
 ```{r echo=T, include=T, eval=T, results='markup', collapse=T}
 # Look at the datatypes
 str(geo_health_df)
@@ -90,14 +90,14 @@ nrow(geo_health_df)
 **(Add image to easy to interpret what variables in it)**
 
 
-#### Check for missing values
+#### Check for Missing Values
 ```{r echo=T, include=T, eval=T, results='markup', collapse=T}
 # check for the missing value
 sum(is.na(geo_health_df))
 ```
 **In this dataset, we carefully examined missing values across all variables. Fortunately, our dataset is complete, and there are no missing values. This is a significant advantage, as it ensures the reliability and robustness of our analysis, eliminating the need for imputation or other techniques to address missing data. In addition, a complete dataset enables us to move forward confidently in exploring the relationships between health-related variables.**
 
-#### Check for outliers and data distribution
+#### Check for Outliers and Data Distribution
 ```{r}
 # check for outliers
 outlier_Depression  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.DEPRESSION)
@@ -115,7 +115,7 @@ outlier_LPA  <- outlierKD2(geo_health_df, geo_health_df$Data_Value.LPA)
 data_by_state <- split(geo_health_df, geo_health_df$StateAbbr)
 ```
 
-#### National level summary
+#### National-level Summary Statistics
 ```{r}
 summary_nation_DEPRESSION <- summary(geo_health_df$Data_Value.DEPRESSION)
 summary_nation_MHLTH <- summary(geo_health_df$Data_Value.MHLTH)
@@ -127,7 +127,7 @@ summary_nation_SLEEP
 summary_nation_LPA
 ```
 
-#### Depression by state(The variable about Health outcome)
+#### Depression by State (The variable about Health outcome)
 **summary statistics about the percentage of the population affected by depression in each state using the summary function.Using the sd function, we can also get each state's standard deviation. **
 ```{r EDA_basicstats_Depression}
 # Summary statistic about percentage of population affected with depression in each state
@@ -157,7 +157,7 @@ plot_usmap(data=mean_df_DEPRESSION, values="Mean_Depression", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-#### Mental health by state(The variable about Health Status)
+#### Mental Health by State (The variable about Health Status)
 ```{r echo=T, eval=T, include=T, results='markup'}
 # Summary of the percentage of the population in each country in each state with a health status of 14 or more days with poor mental health
 summary_by_state_MHLTH <- lapply(data_by_state, function(x) summary(x$Data_Value.MHLTH))
@@ -186,7 +186,7 @@ plot_usmap(data=mean_df_MHLTH, values="Mean_MHLTH", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-#### Sleep by state(The variable about Health Risk Behabior)
+#### Sleep by State (The variable about Health Risk Behabior)
 ```{r echo=T, eval=T, include=T, results='markup'}
 # A list of summary statistic per state: Each data is a percentage of sleep disturbance in each country
 summary_by_state_SLEEP <- lapply(data_by_state, function(x) summary(x$Data_Value.SLEEP))
@@ -215,7 +215,7 @@ plot_usmap(data=mean_df_SLEEP, values="Mean_Sleep", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-#### LPA by state (A variable about Health Risk Behavior)
+#### LPA by State (A variable about Health Risk Behavior)
 ```{r}
 # A list of summary statistic per state: Data are percent of population of people without leisure time in each country
 summary_by_state_LPA <- lapply(data_by_state, function(x) summary(x$Data_Value.LPA))
@@ -252,7 +252,7 @@ colnames(mean_df)[3:6] <- c("Depression", "MHLTH", "Sleep", "LPA")
 head(mean_df)
 ```
 
-#### Comparing the distributions of all four variables using boxplot. 
+#### Comparing the Distributions of All Four Variables Using Boxplots 
 ```{r}
 # create a long format of the data
 mean_df_long <- gather(mean_df, key = "Variable", value = "Value", -State, -fips)
@@ -336,7 +336,7 @@ ggplot(mean_df, aes(x = LPA)) +
   geom_smooth(aes(y = MHLTH, color='black'), method = "lm", se = TRUE)
 ```
 
-#### Correlation - State level. It is between MHLTH and sleep, MHLTH and LPA using us map.
+#### Correlation - State-level. It is between MHLTH and sleep, MHLTH and LPA using us map.
 **These two visualizations show the correlation between MHLTH (mental health) and Sleep and between MHLTH and LPA (physical activity) across the United States. Each state is colored according to the correlation coefficient between these variables, with darker blue indicating a stronger positive correlation and white indicating no correlation or a negative correlation. The color scale is shown on the right side of each map. States with missing data are colored in grey.The titles of the two maps indicate which variables are being compared. From the US maps, we can conclude that there is a positive correlation between mental health (MHLTH) and both sleep and physical activity (LPA) across most states in the US. States with darker blue colors indicate stronger positive correlations between mental health and sleep or mental health and physical activity. On the other hand, states with no correlation or negative correlation are colored white or shades of blue closer to white.Therefore, these maps suggest that sleep and physical activity are positively associated with mental health in most US states, indicating that promoting healthy sleep habits and physical activity can potentially improve mental health outcomes. However, it is important to keep in mind that correlation does not necessarily imply causation, and further research would be needed to establish a causal relationship between these variables.**
 ```{r}
 # The map of US about correlation between MHLTH and Sleep.
