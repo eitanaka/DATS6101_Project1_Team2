@@ -274,7 +274,6 @@ ggplot(mean_df_long, aes(x = "", y = Value, fill = Variable)) +
 This code will create a table showing the mean, median, and standard deviation for each variable (depression, sleep, and mental health) across all states, grouped by state names or FIPS codes. You can compare the results to see how each variable varies across different states.
 
 ### c. Correlations(Heat Map)
-**Exploring the relationships between variables and identifying any correlations that may exist. This can help to identify potential predictors for modeling.**
 
 We begin to investigate the relationship between the four health conditions by generating a mixed correlation matrix of the national-level correlations between our variables. The strongest correlations are between Depression and MHLTH (0.75), Sleep and LPA (0.64), MHLTH and Sleep (0.60), and MHLTH and LPA (0.59). In other words, states with high levels of depression are also likely to have high levels of poor mental health, states with high levels of inadequate sleep are also likely to have high levels of inadequate physical activity. And those states with high levels of poor mental health are likely to have high levels of both inadequate sleep and inadequate physical activity.
 
@@ -362,10 +361,25 @@ plot_usmap(data=cor_by_state_df, values="MHLTH_LPA", labels = TRUE) +
                                 label.hjust = 0.5))
 ```
 
-### d. Hypothesis testing
-**If applicable, conduct statistical hypothesis tests to confirm or reject hypotheses about the data.**
+### d. Hypothesis Testing Via Multiple Linear Regression
+After investigating national and state-level correlations, we attempt to better understand the degree to which the lifestyle factors (Sleep and LPA) are associated with the health outcomes (Depression and MHLTH) by isolating the effect of each lifestyle factor on each of the health outcomes. We do this by conducting multiple linear regressions (one for each of the health outcomes) while controlling for the effects of each of the independent variables (the lifestyle factors). Doing so enables us to use hypothesis testing to determine whether there are significant linear relationships between the lifestyle factors and the health outcomes. This strategy is superior to our previous correlation testing in two ways: it provides a more refined analysis of the associations between individual variables, and it takes into account the sample size and the number of independent variables to determine whether those associations are statistically significant. 
 
-#### Multiple Linear Regressions
+Our hypothesis tests are structured as follows: 
+
+**MHLTH**
+
+Null Hypothesis: There is no significant linear relationship between independent variables (Sleep and LPA) and the dependent variable (MHLTH). There are no statistically significant regression coefficients. 
+
+Alternative Hypothesis: There is a significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (MHLTH). There is at least one nonzero, statistically significant regression coefficient.
+
+**Depression**
+
+Null Hypothesis: There is no significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (Depression). There are no statistically significant regression coefficients. 
+
+Alternative Hypothesis: There is a significant linear relationship between the independent variables (Sleep and LPA) and the dependent variable (Depression). There is at least one nonzero, statistically significant regression coefficient.
+
+
+#### Multiple Linear Regression Results
 ```{r}
 # multiple linear regressions
 
