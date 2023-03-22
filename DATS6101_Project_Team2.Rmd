@@ -143,12 +143,14 @@ kable(summary_df, align = "c",
 At the national level, the summary statistics reveal the following patterns for the health-related variables:
 
 - Depression: The percentage of the population affected by depression ranges from 8.5% to 37.8%, with a median of 20.4% and a mean of 20.5%.
+
 - Mental Health (MHLTH): The percentage of people experiencing poor mental health for 14 or more days ranges from 6.1% to 33.0%, with a median of 15.0% and a mean of 15.1%.
-- Sleep: The percentage of the population with sleep disturbances ranges from 19.8% to 54.4%, with a median of 33.5% and a mean of 34.0%.
-- Leisure-time Physical Inactivity (LPA): The percentage of the population without leisure time ranges from 7.8% to 63.7%, with a median of 23.6% and a mean of 24.5%. 
+
+- Sleep: The percentage of the population with inadequate sleep ranges from 19.8% to 54.4%, with a median of 33.5% and a mean of 34.0%.
+
+- Leisure-time Physical Inactivity (LPA): The percentage of the population without adequate leisure-time physical activities ranges from 7.8% to 63.7%, with a median of 23.6% and a mean of 24.5%. 
 
 These results highlight the necessity of examining the complex relationships between these variables to better understand their correlation and develop effective strategies for improving public health.
-
 
 #### Map-based Analysis
 The map-based analysis presents an overview of the mean values for four health conditions across U.S. counties. These color-coded maps utilize darker shades to indicate higher mean values for each health condition.
