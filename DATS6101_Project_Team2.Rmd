@@ -373,7 +373,7 @@ These two visualizations show the correlation between MHLTH (mental health) and 
 plot_usmap(data=cor_by_state_df, values="MHLTH_SLEEP", labels = TRUE) +
   scale_fill_continuous(low = "white", high = "blue", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
-  ggtitle("Correlation Betweeen Mental Health and Lack of Sleep") +
+  ggtitle("Correlation Betweeen Poor Mental Health and Lack of Sleep") +
   guides(fill = guide_colorbar(title = "Correlation",
                                 title.position = "top",
                                 title.hjust = 0.5,
@@ -384,7 +384,7 @@ plot_usmap(data=cor_by_state_df, values="MHLTH_SLEEP", labels = TRUE) +
 plot_usmap(data=cor_by_state_df, values="MHLTH_LPA", labels = TRUE) +
   scale_fill_continuous(low = "white", high = "blue", guide = FALSE) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0)) +
-  ggtitle("Correlation Betweeen Mental Health and Lack of Physical Activity") +
+  ggtitle("Correlation Betweeen Poor Mental Health and Lack of Physical Activity") +
   guides(fill = guide_colorbar(title = "Correlation",
                                 title.position = "top",
                                 title.hjust = 0.5,
