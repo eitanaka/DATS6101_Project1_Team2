@@ -62,7 +62,9 @@ These estimates can be used to identify emerging health problems and to help dev
 
 ### b. SMART Question
 **Initial Question 1:** Is there a significant relationship between the prevalence of depression, poor mental health, lack of sleep, lack of physical activity and geographic location in the US?**
+
 **Initial Question 2:** Are depression and other variables correlated?/ Is there any correlation between depression and other three variables?
+
 **Research Question:** How lack of sleep and less physical activities is impacting human mental health and how it leads to depression issues we are assuming based on modern lifestyle./To what extent are lack of sleep and lack of physical activity correlated with poor mental health and depression among tracts and states in the US?
 
 
